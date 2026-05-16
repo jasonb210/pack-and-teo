@@ -168,6 +168,7 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;fo
     <button class="a-btn" id="as-drink" onclick="useItem('water')">Drink (<span id="as-drink-n">3</span>)</button>
     <button class="a-btn" id="as-meds" onclick="useItem('meds')">Meds (<span id="as-meds-n">1</span>)</button>
     <button class="a-btn" onclick="feedTeo()">Feed Teo</button>
+    <button class="a-btn" onclick="waterTeo()">Water Teo</button>
   </div>
   <div class="tab-nav">
     <button class="tab-btn active" onclick="showTab('teo',this)">Teo</button>
@@ -677,6 +678,7 @@ function useItem(type){if(G.dead)return;
   renderG();}
 
 function feedTeo(){if(G.dead)return;if((G.inv.food||0)>0){G.inv.food--;G.teoHunger=Math.min(100,G.teoHunger+35);G.teoMorale=Math.min(100,G.teoMorale+10);G.teoXP+=5;addLog('You feed Teo. He accepts with great dignity.','teo');}else addLog('No food to give Teo.','danger');renderG();}
+function waterTeo(){if(G.dead)return;if((G.inv.water||0)>0){G.inv.water--;G.teoThirst=Math.min(100,G.teoThirst+40);G.teoMorale=Math.min(100,G.teoMorale+8);G.teoXP+=3;addLog('You give Teo water from your canteen. He drinks with great seriousness.','teo');}else addLog('No water to give Teo.','danger');renderG();}
 function petTeo(){if(G.dead)return;G.teoMorale=Math.min(100,G.teoMorale+8);G.teoXP+=3;addLog('You pet Teo. He vibrates slightly \u2014 hamster for bliss.','teo');renderG();}
 function playTeo(){if(G.dead)return;if(G.energy>=5){G.energy=Math.max(0,G.energy-5);G.teoMorale=Math.min(100,G.teoMorale+12);G.teoXP+=5;addLog('You play with Teo. He runs figure-eights on your arm.','teo');}else addLog('Too tired. Rest first.');renderG();}
 
