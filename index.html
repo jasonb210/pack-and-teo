@@ -3,395 +3,628 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pack & Teo — A Nuclear Survival Story</title>
+<title>Pack & Teo — Under the Broken Sun</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#1a1528;--bg2:#221d33;--bg3:#2a2440;--card:#251f38;--card2:#2e2845;
-  --gold:#e8b84b;--green:#4caf7d;--red:#e05555;--blue:#5b9bd5;
-  --purple:#9b7fd4;--orange:#d4855b;--dim:#6b6380;--text:#d4cce8;--textb:#f0ecfa;
-  --border:#3d3558;--border2:#4a4168;
-}
+:root{--bg:#1a1528;--bg2:#221d33;--bg3:#2a2440;--card:#251f38;--card2:#2e2845;--gold:#e8b84b;--green:#4caf7d;--red:#e05555;--blue:#5b9bd5;--purple:#9b7fd4;--orange:#d4855b;--dim:#6b6380;--text:#d4cce8;--textb:#f0ecfa;--border:#3d3558;--border2:#4a4168;}
 body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;font-size:15px;line-height:1.5;overflow-x:hidden;min-height:100vh}
 #game{max-width:760px;margin:0 auto;position:relative}
-.screen{display:none;flex-direction:column}
+.screen{display:none;flex-direction:column;min-height:100vh}
 .screen.active{display:flex}
-
-/* INTRO */
-#intro{background:var(--bg);align-items:center;justify-content:center;text-align:center;padding:2.5rem 1.5rem;min-height:100vh;position:relative;overflow:hidden}
-#intro::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(232,184,75,.07) 0%,transparent 70%);pointer-events:none}
-.title-main{font-size:clamp(2.5rem,10vw,4.2rem);font-weight:700;letter-spacing:.15em;color:var(--gold);font-family:'Share Tech Mono',monospace}
-.title-amp{color:var(--text);opacity:.5}
-.title-sub{font-size:.9rem;letter-spacing:.4em;color:var(--dim);text-transform:uppercase;margin:.4rem 0 1.8rem}
-.intro-prose{max-width:460px;color:var(--text);line-height:1.9;font-size:1rem;text-align:left}
-.intro-prose p{margin-bottom:.9rem}
-.hi{color:var(--gold);font-weight:700}.hi2{color:var(--green);font-weight:700}.hi3{color:var(--red);font-weight:700}
-.tagline{font-style:italic;color:var(--dim);font-size:.9rem;text-align:center;margin:.9rem 0 1.8rem;letter-spacing:.04em}
+/* TITLE */
+#title{background:var(--bg);align-items:center;justify-content:center;text-align:center;padding:3rem 1.5rem;position:relative;overflow:hidden}
+#title::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(232,184,75,.07) 0%,transparent 70%);pointer-events:none}
+.title-main{font-size:clamp(2.8rem,10vw,5rem);font-weight:700;letter-spacing:.15em;color:var(--gold);font-family:'Share Tech Mono',monospace}
+.title-amp{color:var(--text);opacity:.4}
+.title-sub{font-size:.85rem;letter-spacing:.45em;color:var(--dim);text-transform:uppercase;margin:.5rem 0 .3rem}
+.title-chapter{font-family:'Lora',serif;font-style:italic;font-size:1.1rem;color:var(--dim);margin-bottom:2.5rem}
 .dots{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.dot{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;opacity:.25}
-
-/* GAME OVER */
-#gameover{background:var(--bg);align-items:center;justify-content:center;text-align:center;padding:2.5rem 1.5rem;min-height:100vh}
-.go-title{font-size:2.2rem;font-weight:700;font-family:'Share Tech Mono',monospace;margin-bottom:.4rem}
-.go-sub{font-size:.9rem;color:var(--dim);letter-spacing:.2em;margin-bottom:1.5rem}
-.go-msg{max-width:420px;font-size:1rem;line-height:1.8;color:var(--text);margin-bottom:1.8rem}
-
-/* MAIN GAME */
-.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.55rem 1rem;display:flex;align-items:center;gap:.75rem;flex-shrink:0;position:sticky;top:0;z-index:10}
+.dot{position:absolute;width:2px;height:2px;background:var(--gold);border-radius:50%;opacity:.2}
+/* READER */
+#reader{background:var(--bg);min-height:100vh}
+.r-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:.6rem 1rem;display:flex;align-items:center;gap:.75rem;position:sticky;top:0;z-index:10}
+.r-title{font-size:.72rem;color:var(--dim);letter-spacing:.15em;text-transform:uppercase;flex:1;font-family:'Rajdhani',sans-serif}
+.r-prog{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--border2)}
+.r-body{padding:2rem 1.5rem;max-width:580px;margin:0 auto;width:100%}
+.r-prose{font-family:'Lora',serif;font-size:1.05rem;line-height:1.95;color:var(--text)}
+.r-prose p{margin-bottom:1rem}
+.r-prose .em{color:var(--gold);font-style:normal}
+.r-prose .note{font-style:italic;color:var(--dim);font-size:.92rem;border-left:2px solid var(--border);padding-left:.75rem;margin:1rem 0;display:block}
+.r-footer{padding:1rem 1.5rem 2rem;max-width:580px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:.75rem}
+.r-prompt{font-family:'Lora',serif;font-size:.95rem;line-height:1.8;color:var(--dim);font-style:italic;border-top:1px solid var(--border);padding-top:.9rem;margin-bottom:.25rem}
+.choice-btn{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:.85rem 1rem;text-align:left;font-size:.95rem;color:var(--text);cursor:pointer;font-family:'Lora',serif;transition:all .15s;line-height:1.5;width:100%}
+.choice-btn:hover{background:var(--card2);border-color:var(--border2);color:var(--textb)}
+.c-path{font-size:.68rem;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-family:'Rajdhani',sans-serif;font-weight:700;margin-bottom:.3rem}
+.cont-btn{background:rgba(232,184,75,.12);border:1px solid rgba(232,184,75,.3);border-radius:6px;padding:.65rem 1.5rem;font-size:.88rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);cursor:pointer;font-family:'Rajdhani',sans-serif;transition:all .15s;align-self:flex-end}
+.cont-btn:hover{background:rgba(232,184,75,.22);border-color:var(--gold)}
+/* GAME */
+#main{flex-direction:column;min-height:100vh}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.55rem 1rem;display:flex;align-items:center;gap:.75rem;position:sticky;top:0;z-index:10}
 .day-badge{font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--gold);background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.22);padding:.18rem .55rem;border-radius:4px;white-space:nowrap}
-.weather-badge{font-size:.78rem;color:var(--dim);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
+.weather-badge{font-size:.78rem;color:var(--dim);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .stats-bar{background:var(--bg3);padding:.55rem 1rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.35rem .7rem;border-bottom:1px solid var(--border)}
 .stat{display:flex;flex-direction:column;gap:2px}
 .stat-label{font-size:.68rem;color:var(--dim);letter-spacing:.07em;text-transform:uppercase;display:flex;justify-content:space-between}
 .stat-val{font-size:.68rem;font-family:'Share Tech Mono',monospace}
-.stat-bar{height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
-.stat-fill{height:100%;border-radius:2px;transition:width .35s ease}
-.s-health .stat-fill{background:var(--red)}.s-hunger .stat-fill{background:var(--gold)}.s-thirst .stat-fill{background:var(--blue)}
-.s-energy .stat-fill{background:var(--green)}.s-radiation .stat-fill{background:var(--purple)}.s-teo .stat-fill{background:var(--orange)}
-
+.sbar{height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.sf{height:100%;border-radius:2px;transition:width .35s ease}
+.s-health .sf{background:var(--red)}.s-hunger .sf{background:var(--gold)}.s-thirst .sf{background:var(--blue)}.s-energy .sf{background:var(--green)}.s-radiation .sf{background:var(--purple)}.s-teo .sf{background:var(--orange)}
 .log-section{background:var(--bg2);border-bottom:1px solid var(--border);padding:.5rem 1rem}
 .log-hd{font-size:.68rem;color:var(--dim);letter-spacing:.13em;text-transform:uppercase;margin-bottom:.35rem}
 .log-panel{background:var(--bg3);border:1px solid var(--border);border-radius:5px;height:90px;overflow-y:auto;padding:.4rem .6rem;font-family:'Share Tech Mono',monospace;font-size:.76rem;display:flex;flex-direction:column;gap:.25rem}
-.log-entry{color:var(--dim);line-height:1.45}
-.log-entry .ld{color:var(--border2);margin-right:.35rem}
-.log-entry.story{color:var(--text)}.log-entry.important{color:var(--gold)}.log-entry.danger{color:var(--red)}.log-entry.teo{color:var(--orange)}
-
+.le{color:var(--dim);line-height:1.45}.le .ld{color:var(--border2);margin-right:.35rem}
+.le.story{color:var(--text)}.le.important{color:var(--gold)}.le.danger{color:var(--red)}.le.teo{color:var(--orange)}
 .action-strip{background:var(--bg2);border-bottom:1px solid var(--border);padding:.45rem 1rem;display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
 .a-btn{font-size:.78rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.35rem .7rem;border-radius:5px;cursor:pointer;font-family:'Rajdhani',sans-serif;border:1px solid var(--border);background:var(--card);color:var(--text);transition:all .13s;white-space:nowrap}
 .a-btn:hover:not(:disabled){background:var(--card2);border-color:var(--border2);color:var(--textb)}
-.a-btn.primary{background:rgba(232,184,75,.14);border-color:rgba(232,184,75,.38);color:var(--gold)}
-.a-btn.primary:hover:not(:disabled){background:rgba(232,184,75,.24);border-color:var(--gold)}
+.a-btn.pri{background:rgba(232,184,75,.14);border-color:rgba(232,184,75,.38);color:var(--gold)}
+.a-btn.pri:hover:not(:disabled){background:rgba(232,184,75,.24);border-color:var(--gold)}
 .a-btn:disabled{opacity:.38;cursor:not-allowed}
 .a-sep{width:1px;height:20px;background:var(--border);flex-shrink:0}
-
 .tab-nav{display:flex;border-bottom:1px solid var(--border);background:var(--bg2)}
 .tab-btn{flex:1;padding:.5rem;font-size:.76rem;letter-spacing:.09em;text-transform:uppercase;background:none;border:none;color:var(--dim);cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;border-bottom:2px solid transparent;transition:color .18s}
 .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
 .tab-panel{display:none;padding:.65rem 1rem;flex-direction:column;gap:.5rem}
 .tab-panel.active{display:flex}
-
 .teo-panel{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:.65rem;display:flex;align-items:center;gap:.65rem}
 .teo-face{width:40px;height:40px;flex-shrink:0}
 .teo-info{flex:1;min-width:0}
 .teo-status{font-size:.82rem;font-weight:600;color:var(--orange)}
-.teo-level{font-size:.7rem;color:var(--dim);margin:.1rem 0 .25rem}
-.teo-xp-bar{height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
-.teo-xp-fill{height:100%;background:var(--orange);border-radius:2px;transition:width .35s}
+.teo-lv{font-size:.7rem;color:var(--dim);margin:.1rem 0 .25rem}
+.txb{height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.txf{height:100%;background:var(--orange);border-radius:2px;transition:width .35s}
 .teo-acts{display:flex;gap:.35rem;flex-shrink:0}
-
 .inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
 .inv-item{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.4rem .65rem;display:flex;align-items:center;gap:.45rem;font-size:.82rem}
-.inv-icon{width:18px;text-align:center;font-size:.9rem}
-.inv-name{flex:1;color:var(--text)}
-.inv-count{font-family:'Share Tech Mono',monospace;color:var(--gold);font-size:.82rem}
+.ii{width:18px;text-align:center;font-size:.9rem}
+.in{flex:1;color:var(--text)}
+.ic{font-family:'Share Tech Mono',monospace;color:var(--gold);font-size:.82rem}
 .equip-row{display:flex;gap:.35rem}
 .equip-badge{font-size:.7rem;color:var(--dim);background:var(--card);border:1px solid var(--border);border-radius:4px;padding:.18rem .45rem;flex:1;text-align:center}
 .equip-badge span{color:var(--text)}
-
 .craft-grid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
 .c-btn{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:.45rem .65rem;font-size:.78rem;font-weight:600;color:var(--text);cursor:pointer;font-family:'Rajdhani',sans-serif;transition:all .13s;text-align:center;line-height:1.5}
 .c-btn:hover{background:var(--card2);border-color:var(--border2)}
-
-.section-hd{font-size:.68rem;color:var(--dim);letter-spacing:.13em;text-transform:uppercase;padding-bottom:.28rem;border-bottom:1px solid var(--border)}
-.warning-msg{background:rgba(224,85,85,.07);border:1px solid rgba(224,85,85,.18);border-radius:5px;padding:.4rem .65rem;font-size:.8rem;color:var(--red)}
-
+.shd{font-size:.68rem;color:var(--dim);letter-spacing:.13em;text-transform:uppercase;padding-bottom:.28rem;border-bottom:1px solid var(--border)}
+.warn{background:rgba(224,85,85,.07);border:1px solid rgba(224,85,85,.18);border-radius:5px;padding:.4rem .65rem;font-size:.8rem;color:var(--red)}
+/* END */
+#endscreen{background:var(--bg);align-items:center;justify-content:center;text-align:center;padding:3rem 1.5rem;min-height:100vh}
+.end-title{font-size:2rem;font-weight:700;font-family:'Share Tech Mono',monospace;margin-bottom:.4rem}
+.end-sub{font-size:.85rem;color:var(--dim);letter-spacing:.2em;margin-bottom:1.5rem;text-transform:uppercase}
+.end-msg{max-width:460px;font-family:'Lora',serif;font-size:1rem;line-height:1.9;color:var(--text);margin:0 auto 1.5rem;white-space:pre-line}
+.end-haiku{max-width:300px;font-family:'Lora',serif;font-style:italic;font-size:1rem;line-height:2.1;color:var(--dim);margin:0 auto 1.5rem;border-left:2px solid var(--border);padding-left:1rem;text-align:left}
+.end-teaser{max-width:440px;font-family:'Share Tech Mono',monospace;font-size:.78rem;line-height:1.8;color:var(--gold);margin:0 auto 1.5rem;background:rgba(232,184,75,.05);border:1px solid rgba(232,184,75,.15);border-radius:6px;padding:1rem;white-space:pre-line}
+/* SHARED */
 .btn{background:rgba(232,184,75,.14);border:1px solid rgba(232,184,75,.38);border-radius:6px;padding:.6rem 1.6rem;font-size:.9rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);cursor:pointer;font-family:'Rajdhani',sans-serif;transition:all .13s}
 .btn:hover{background:rgba(232,184,75,.24);border-color:var(--gold)}
-
-.modal-overlay{position:fixed;inset:0;background:rgba(10,8,20,.9);display:flex;align-items:center;justify-content:center;z-index:200;padding:1rem;overflow-y:auto}
-.modal-overlay.hidden{display:none}
-.modal-box{background:var(--card);border:1px solid var(--border2);border-radius:9px;max-width:500px;width:100%;padding:1.3rem;max-height:90vh;overflow-y:auto}
+.btn-ghost{background:transparent;border:1px solid var(--border);border-radius:6px;padding:.5rem 1.2rem;font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);cursor:pointer;font-family:'Rajdhani',sans-serif;transition:all .13s}
+.btn-ghost:hover{border-color:var(--border2);color:var(--text)}
+.modal-ov{position:fixed;inset:0;background:rgba(10,8,20,.92);display:flex;align-items:center;justify-content:center;z-index:200;padding:1rem;overflow-y:auto}
+.modal-ov.hidden{display:none}
+.modal-box{background:var(--card);border:1px solid var(--border2);border-radius:9px;max-width:520px;width:100%;padding:1.3rem;max-height:90vh;overflow-y:auto}
 .modal-title{font-family:'Share Tech Mono',monospace;font-size:1rem;color:var(--gold);margin-bottom:.9rem;letter-spacing:.07em}
-.modal-prose{font-size:.92rem;line-height:1.85;color:var(--text);margin-bottom:1.1rem}
+.modal-prose{font-family:'Lora',serif;font-size:.92rem;line-height:1.85;color:var(--text);margin-bottom:1.1rem}
 .modal-prose p{margin-bottom:.7rem}
-.modal-choices{display:flex;flex-direction:column;gap:.45rem}
-.choice-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:.65rem .9rem;text-align:left;font-size:.88rem;color:var(--text);cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;transition:all .13s;line-height:1.4;width:100%}
-.choice-btn:hover{background:var(--card2);border-color:var(--border2);color:var(--textb)}
-.choice-label{font-size:.7rem;color:var(--dim);letter-spacing:.09em;text-transform:uppercase;margin-bottom:.18rem}
+.mc-btn{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:.65rem .9rem;text-align:left;font-size:.88rem;color:var(--text);cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:600;transition:all .13s;line-height:1.4;width:100%}
+.mc-btn:hover{background:var(--card2);border-color:var(--border2);color:var(--textb)}
+.mc-label{font-size:.7rem;color:var(--dim);letter-spacing:.09em;text-transform:uppercase;margin-bottom:.18rem}
 </style>
 </head>
 <body>
 <div id="game">
 
-  <!-- INTRO SCREEN -->
-  <div id="intro" class="screen active">
-    <div class="dots" id="dots"></div>
-    <div class="title-main">PACK <span class="title-amp">&amp;</span> TEO</div>
-    <div class="title-sub">A Nuclear Survival Story</div>
-    <div class="intro-prose">
-      <p>The bombs fell three weeks ago. Most didn't make it. You did — barely. They call you <span class="hi">Pack</span>, on account of the massive backpack you refuse to put down. Everything you own is strapped to your back.</p>
-      <p>Well, everything and <em>everyone</em>. A tiny hamster named <span class="hi2">Teo</span> rides in a pouch on your pack. He's the last friend you have in this broken world.</p>
-      <p>By day, <span class="hi3">scavengers</span> hunt for supplies — and they'll kill for yours. By night, <span class="hi3">radiation-mutated creatures</span> crawl from the ruins. You need to find shelter, build defenses, and survive.</p>
-    </div>
-    <div class="tagline">Whatever happens... keep Teo safe.</div>
-    <button class="btn" onclick="startGame()">Begin Survival</button>
+<!-- TITLE -->
+<div id="title" class="screen active">
+  <div class="dots" id="dots"></div>
+  <div style="font-size:.72rem;letter-spacing:.3em;color:var(--dim);text-transform:uppercase;font-family:'Rajdhani',sans-serif;margin-bottom:.5rem">A Post-Apocalyptic Interactive Story</div>
+  <div class="title-main">PACK <span class="title-amp">&amp;</span> TEO</div>
+  <div class="title-sub">Under the Broken Sun</div>
+  <div class="title-chapter">Chapter One</div>
+  <div style="font-family:'Lora',serif;font-style:italic;font-size:.88rem;color:var(--dim);margin-bottom:.75rem">For Harlan &mdash; and the friends who survive with you</div>
+  <div style="max-width:400px;font-family:'Lora',serif;font-style:italic;font-size:.88rem;color:var(--dim);line-height:1.8;margin-bottom:2rem;opacity:.8">You are Pack. These are your people. Every choice lives in the space between who you were before the war and who the broken world needs you to become. Teo is always in your pocket. Choose carefully.</div>
+  <div style="display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center">
+    <button class="btn" onclick="beginStory()">Begin</button>
+    <button class="btn-ghost" onclick="showCast()">Meet the Survivors</button>
   </div>
+</div>
 
-  <!-- GAME OVER SCREEN -->
-  <div id="gameover" class="screen">
-    <div class="go-title" id="go-title">GAME OVER</div>
-    <div class="go-sub" id="go-sub">THE WASTELAND CLAIMS ANOTHER</div>
-    <div class="go-msg" id="go-msg"></div>
-    <button class="btn" onclick="resetGame()">Try Again</button>
+<!-- READER -->
+<div id="reader" class="screen">
+  <div class="r-header">
+    <div class="r-title" id="r-title">Prologue</div>
+    <div class="r-prog" id="r-prog"></div>
   </div>
+  <div class="r-body">
+    <div class="r-prose" id="r-prose"></div>
+  </div>
+  <div class="r-footer" id="r-footer"></div>
+</div>
 
-  <!-- MAIN GAME SCREEN -->
-  <div id="main" class="screen">
-    <div class="top-bar">
-      <div class="day-badge" id="day-badge">Day 1 — Dawn</div>
-      <div class="weather-badge" id="weather-badge">Clear Skies — No adverse effects.</div>
-    </div>
-
-    <div class="stats-bar">
-      <div class="stat s-health"><div class="stat-label"><span>Health</span><span class="stat-val" id="sv-health">100</span></div><div class="stat-bar"><div class="stat-fill" id="sb-health" style="width:100%"></div></div></div>
-      <div class="stat s-hunger"><div class="stat-label"><span>Hunger</span><span class="stat-val" id="sv-hunger">80</span></div><div class="stat-bar"><div class="stat-fill" id="sb-hunger" style="width:80%"></div></div></div>
-      <div class="stat s-thirst"><div class="stat-label"><span>Thirst</span><span class="stat-val" id="sv-thirst">80</span></div><div class="stat-bar"><div class="stat-fill" id="sb-thirst" style="width:80%"></div></div></div>
-      <div class="stat s-energy"><div class="stat-label"><span>Energy</span><span class="stat-val" id="sv-energy">100</span></div><div class="stat-bar"><div class="stat-fill" id="sb-energy" style="width:100%"></div></div></div>
-      <div class="stat s-radiation"><div class="stat-label"><span>Radiation</span><span class="stat-val" id="sv-radiation">0</span></div><div class="stat-bar"><div class="stat-fill" id="sb-radiation" style="width:0%"></div></div></div>
-      <div class="stat s-teo"><div class="stat-label"><span>Teo Morale</span><span class="stat-val" id="sv-teo">100</span></div><div class="stat-bar"><div class="stat-fill" id="sb-teo" style="width:100%"></div></div></div>
-    </div>
-
-    <div class="log-section">
-      <div class="log-hd">Activity Log</div>
-      <div class="log-panel" id="log-panel"></div>
-    </div>
-
-    <div class="action-strip">
-      <button class="a-btn primary" onclick="doExplore()">&#x2B21; Explore</button>
-      <button class="a-btn" onclick="doWait()">&#x2192; Rest</button>
-      <div class="a-sep"></div>
-      <button class="a-btn" id="as-eat" onclick="useItem('food')">Eat (<span id="as-eat-n">3</span>)</button>
-      <button class="a-btn" id="as-drink" onclick="useItem('water')">Drink (<span id="as-drink-n">3</span>)</button>
-      <button class="a-btn" id="as-meds" onclick="useItem('meds')">Meds (<span id="as-meds-n">1</span>)</button>
-      <button class="a-btn" onclick="feedTeo()">Feed Teo</button>
-    </div>
-
-    <div class="tab-nav">
-      <button class="tab-btn active" onclick="showTab('teo',this)">Teo</button>
-      <button class="tab-btn" onclick="showTab('inventory',this)">Inventory</button>
-      <button class="tab-btn" onclick="showTab('craft',this)">Craft</button>
-      <button class="tab-btn" onclick="showTab('skills',this)">Skills</button>
-    </div>
-
-    <div id="tab-teo" class="tab-panel active">
-      <div class="teo-panel">
-        <div class="teo-face">
-          <svg width="40" height="40" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="22" cy="26" rx="13" ry="11" fill="#c8956c"/>
-            <ellipse cx="10" cy="20" rx="5" ry="7" fill="#c8956c"/>
-            <ellipse cx="34" cy="20" rx="5" ry="7" fill="#c8956c"/>
-            <ellipse cx="10" cy="20" rx="3" ry="5" fill="#f0c4a0"/>
-            <ellipse cx="34" cy="20" rx="3" ry="5" fill="#f0c4a0"/>
-            <ellipse cx="22" cy="27" rx="10" ry="8" fill="#f0c4a0"/>
-            <circle cx="17" cy="24" r="2.5" fill="#2a1f0e"/>
-            <circle cx="27" cy="24" r="2.5" fill="#2a1f0e"/>
-            <circle cx="17.8" cy="23.2" r="0.8" fill="white"/>
-            <circle cx="27.8" cy="23.2" r="0.8" fill="white"/>
-            <ellipse cx="22" cy="29" rx="2" ry="1.2" fill="#d4847a"/>
-            <line x1="14" y1="28" x2="8" y2="27" stroke="#8a6040" stroke-width="0.8"/>
-            <line x1="14" y1="29" x2="7" y2="30" stroke="#8a6040" stroke-width="0.8"/>
-            <line x1="30" y1="28" x2="36" y2="27" stroke="#8a6040" stroke-width="0.8"/>
-            <line x1="30" y1="29" x2="37" y2="30" stroke="#8a6040" stroke-width="0.8"/>
-          </svg>
-        </div>
-        <div class="teo-info">
-          <div class="teo-status" id="teo-status-txt">Teo is happy!</div>
-          <div class="teo-level" id="teo-level-txt">Lv0 · Untrained Pup</div>
-          <div class="teo-xp-bar"><div class="teo-xp-fill" id="teo-xp-fill" style="width:0%"></div></div>
-          <div style="font-size:.68rem;color:var(--dim);margin-top:.25rem" id="teo-unlock-txt">Scent Detection unlocks at Lv1</div>
-        </div>
-        <div class="teo-acts">
-          <button class="a-btn" onclick="petTeo()" style="padding:.3rem .55rem;font-size:.72rem">Pet</button>
-          <button class="a-btn" onclick="playTeo()" style="padding:.3rem .55rem;font-size:.72rem">Play</button>
-        </div>
+<!-- GAME -->
+<div id="main" class="screen">
+  <div class="top-bar">
+    <div class="day-badge" id="day-badge">Day 1</div>
+    <div class="weather-badge" id="weather-badge">Clear Skies</div>
+  </div>
+  <div class="stats-bar">
+    <div class="stat s-health"><div class="stat-label"><span>Health</span><span class="stat-val" id="sv-health">100</span></div><div class="sbar"><div class="sf" id="sb-health" style="width:100%"></div></div></div>
+    <div class="stat s-hunger"><div class="stat-label"><span>Hunger</span><span class="stat-val" id="sv-hunger">80</span></div><div class="sbar"><div class="sf" id="sb-hunger" style="width:80%"></div></div></div>
+    <div class="stat s-thirst"><div class="stat-label"><span>Thirst</span><span class="stat-val" id="sv-thirst">80</span></div><div class="sbar"><div class="sf" id="sb-thirst" style="width:80%"></div></div></div>
+    <div class="stat s-energy"><div class="stat-label"><span>Energy</span><span class="stat-val" id="sv-energy">100</span></div><div class="sbar"><div class="sf" id="sb-energy" style="width:100%"></div></div></div>
+    <div class="stat s-radiation"><div class="stat-label"><span>Radiation</span><span class="stat-val" id="sv-radiation">0</span></div><div class="sbar"><div class="sf" id="sb-radiation" style="width:0%"></div></div></div>
+    <div class="stat s-teo"><div class="stat-label"><span>Teo Morale</span><span class="stat-val" id="sv-teo">100</span></div><div class="sbar"><div class="sf" id="sb-teo" style="width:100%"></div></div></div>
+  </div>
+  <div class="log-section">
+    <div class="log-hd">Activity Log</div>
+    <div class="log-panel" id="log-panel"></div>
+  </div>
+  <div class="action-strip">
+    <button class="a-btn pri" onclick="doExplore()">&#x2B21; Explore</button>
+    <button class="a-btn" onclick="doWait()">&#x2192; Rest</button>
+    <div class="a-sep"></div>
+    <button class="a-btn" id="as-eat" onclick="useItem('food')">Eat (<span id="as-eat-n">3</span>)</button>
+    <button class="a-btn" id="as-drink" onclick="useItem('water')">Drink (<span id="as-drink-n">3</span>)</button>
+    <button class="a-btn" id="as-meds" onclick="useItem('meds')">Meds (<span id="as-meds-n">1</span>)</button>
+    <button class="a-btn" onclick="feedTeo()">Feed Teo</button>
+  </div>
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('teo',this)">Teo</button>
+    <button class="tab-btn" onclick="showTab('inventory',this)">Inventory</button>
+    <button class="tab-btn" onclick="showTab('craft',this)">Craft</button>
+    <button class="tab-btn" onclick="showTab('skills',this)">Skills</button>
+  </div>
+  <div id="tab-teo" class="tab-panel active">
+    <div class="teo-panel">
+      <div class="teo-face">
+        <svg width="40" height="40" viewBox="0 0 44 44" fill="none">
+          <ellipse cx="22" cy="26" rx="13" ry="11" fill="#c8956c"/>
+          <ellipse cx="10" cy="20" rx="5" ry="7" fill="#c8956c"/><ellipse cx="34" cy="20" rx="5" ry="7" fill="#c8956c"/>
+          <ellipse cx="10" cy="20" rx="3" ry="5" fill="#f0c4a0"/><ellipse cx="34" cy="20" rx="3" ry="5" fill="#f0c4a0"/>
+          <ellipse cx="22" cy="27" rx="10" ry="8" fill="#f0c4a0"/>
+          <circle cx="17" cy="24" r="2.5" fill="#2a1f0e"/><circle cx="27" cy="24" r="2.5" fill="#2a1f0e"/>
+          <circle cx="17.8" cy="23.2" r="0.8" fill="white"/><circle cx="27.8" cy="23.2" r="0.8" fill="white"/>
+          <ellipse cx="22" cy="29" rx="2" ry="1.2" fill="#d4847a"/>
+          <line x1="14" y1="28" x2="8" y2="27" stroke="#8a6040" stroke-width="0.8"/>
+          <line x1="14" y1="29" x2="7" y2="30" stroke="#8a6040" stroke-width="0.8"/>
+          <line x1="30" y1="28" x2="36" y2="27" stroke="#8a6040" stroke-width="0.8"/>
+          <line x1="30" y1="29" x2="37" y2="30" stroke="#8a6040" stroke-width="0.8"/>
+          <path d="M 32 34 Q 38 36 36 41 Q 34 43 32 41" stroke="#c8956c" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
       </div>
-      <div class="inv-grid">
-        <div class="inv-item"><span class="inv-icon">&#x1F34E;</span><span class="inv-name">Teo Hunger</span><span class="inv-count" id="teo-hunger-val">80</span></div>
-        <div class="inv-item"><span class="inv-icon">&#x1F4A7;</span><span class="inv-name">Teo Thirst</span><span class="inv-count" id="teo-thirst-val">80</span></div>
+      <div class="teo-info">
+        <div class="teo-status" id="teo-status-txt">Teo is happy!</div>
+        <div class="teo-lv" id="teo-lv-txt">Lv0 &middot; Untrained Pup</div>
+        <div class="txb"><div class="txf" id="teo-xp-fill" style="width:0%"></div></div>
+        <div style="font-size:.68rem;color:var(--dim);margin-top:.25rem" id="teo-unlock-txt">Scent Detection unlocks at Lv1</div>
       </div>
-      <div id="teo-warning" class="warning-msg" style="display:none"></div>
-      <div class="section-hd">Abilities</div>
-      <div id="teo-abilities" style="font-size:.82rem;color:var(--dim);line-height:1.75"></div>
-    </div>
-
-    <div id="tab-inventory" class="tab-panel">
-      <div class="section-hd">Resources</div>
-      <div class="inv-grid" id="inv-grid"></div>
-      <div class="section-hd" style="margin-top:.4rem">Equipment</div>
-      <div class="equip-row">
-        <div class="equip-badge">Weapon: <span id="eq-weapon">Makeshift Spear</span></div>
-        <div class="equip-badge">Armor: <span id="eq-armor">Tattered Clothes</span></div>
+      <div class="teo-acts">
+        <button class="a-btn" onclick="petTeo()" style="padding:.3rem .55rem;font-size:.72rem">Pet</button>
+        <button class="a-btn" onclick="playTeo()" style="padding:.3rem .55rem;font-size:.72rem">Play</button>
       </div>
     </div>
-
-    <div id="tab-craft" class="tab-panel">
-      <div class="section-hd">Craft — Scrap available: <span id="scrap-count" style="color:var(--gold);font-family:'Share Tech Mono',monospace">0</span></div>
-      <div class="craft-grid">
-        <button class="c-btn" onclick="craftItem('medkit')">Medkit<br><span style="color:var(--dim);font-size:.72rem">3 scrap &rarr; +1 Meds</span></button>
-        <button class="c-btn" onclick="craftItem('trap')">Food Trap<br><span style="color:var(--dim);font-size:.72rem">2 scrap &rarr; +1 Food</span></button>
-        <button class="c-btn" onclick="craftItem('filter')">Water Filter<br><span style="color:var(--dim);font-size:.72rem">3 scrap &rarr; +2 Water</span></button>
-        <button class="c-btn" onclick="craftItem('weapon')">Better Weapon<br><span style="color:var(--dim);font-size:.72rem">5 scrap &rarr; upgrade</span></button>
-      </div>
+    <div class="inv-grid">
+      <div class="inv-item"><span class="ii">&#x1F34E;</span><span class="in">Teo Hunger</span><span class="ic" id="teo-hunger-val">80</span></div>
+      <div class="inv-item"><span class="ii">&#x1F4A7;</span><span class="in">Teo Thirst</span><span class="ic" id="teo-thirst-val">80</span></div>
     </div>
-
-    <div id="tab-skills" class="tab-panel">
-      <div class="section-hd">Skills — XP available: <span id="xp-display" style="color:var(--gold);font-family:'Share Tech Mono',monospace">0</span></div>
-      <div class="craft-grid">
-        <button class="c-btn" onclick="spendXP('health')">Train Body<br><span style="color:var(--dim);font-size:.72rem">20 XP &rarr; +10 Health</span></button>
-        <button class="c-btn" onclick="spendXP('energy')">Endurance<br><span style="color:var(--dim);font-size:.72rem">10 XP &rarr; +15 Energy</span></button>
-        <button class="c-btn" onclick="spendXP('radiation')">Rad Flush<br><span style="color:var(--dim);font-size:.72rem">15 XP &rarr; -20 Radiation</span></button>
-        <button class="c-btn" onclick="spendXP('teo')">Teo Bond<br><span style="color:var(--dim);font-size:.72rem">10 XP &rarr; +20 Teo Morale</span></button>
-      </div>
+    <div id="teo-warning" class="warn" style="display:none"></div>
+    <div class="shd">Abilities</div>
+    <div id="teo-abilities" style="font-size:.82rem;color:var(--dim);line-height:1.75">No abilities yet. Keep Teo happy and explore.</div>
+  </div>
+  <div id="tab-inventory" class="tab-panel">
+    <div class="shd">Resources</div>
+    <div class="inv-grid" id="inv-grid"></div>
+    <div class="shd" style="margin-top:.4rem">Equipment</div>
+    <div class="equip-row">
+      <div class="equip-badge">Weapon: <span id="eq-weapon">Makeshift Spear</span></div>
+      <div class="equip-badge">Armor: <span id="eq-armor">Tattered Clothes</span></div>
+    </div>
+    <div class="shd" style="margin-top:.4rem">Path Taken</div>
+    <div id="path-log" style="font-size:.78rem;color:var(--dim);line-height:1.8">No choices yet.</div>
+  </div>
+  <div id="tab-craft" class="tab-panel">
+    <div class="shd">Craft &mdash; Scrap: <span id="scrap-count" style="color:var(--gold);font-family:'Share Tech Mono',monospace">0</span></div>
+    <div class="craft-grid">
+      <button class="c-btn" onclick="craftItem('medkit')">Medkit<br><span style="color:var(--dim);font-size:.72rem">3 scrap &rarr; +1 Meds</span></button>
+      <button class="c-btn" onclick="craftItem('trap')">Food Trap<br><span style="color:var(--dim);font-size:.72rem">2 scrap &rarr; +1 Food</span></button>
+      <button class="c-btn" onclick="craftItem('filter')">Water Filter<br><span style="color:var(--dim);font-size:.72rem">3 scrap &rarr; +2 Water</span></button>
+      <button class="c-btn" onclick="craftItem('weapon')">Better Weapon<br><span style="color:var(--dim);font-size:.72rem">5 scrap &rarr; upgrade</span></button>
     </div>
   </div>
-
-  <!-- STORY MODAL -->
-  <div id="modal" class="modal-overlay hidden">
-    <div class="modal-box">
-      <div class="modal-title" id="modal-title"></div>
-      <div class="modal-prose" id="modal-prose"></div>
-      <div class="modal-choices" id="modal-choices"></div>
+  <div id="tab-skills" class="tab-panel">
+    <div class="shd">Skills &mdash; XP: <span id="xp-display" style="color:var(--gold);font-family:'Share Tech Mono',monospace">0</span></div>
+    <div class="craft-grid">
+      <button class="c-btn" onclick="spendXP('health')">Train Body<br><span style="color:var(--dim);font-size:.72rem">20 XP &rarr; +10 Health</span></button>
+      <button class="c-btn" onclick="spendXP('energy')">Endurance<br><span style="color:var(--dim);font-size:.72rem">10 XP &rarr; +15 Energy</span></button>
+      <button class="c-btn" onclick="spendXP('radiation')">Rad Flush<br><span style="color:var(--dim);font-size:.72rem">15 XP &rarr; -20 Rad</span></button>
+      <button class="c-btn" onclick="spendXP('teo')">Teo Bond<br><span style="color:var(--dim);font-size:.72rem">10 XP &rarr; +20 Teo</span></button>
     </div>
   </div>
+</div>
 
-</div><!-- end #game -->
+<!-- END SCREEN -->
+<div id="endscreen" class="screen">
+  <div class="end-title" id="end-title">THE END</div>
+  <div class="end-sub" id="end-sub"></div>
+  <div class="end-msg" id="end-msg"></div>
+  <div class="end-haiku" id="end-haiku" style="display:none"></div>
+  <div class="end-teaser" id="end-teaser" style="display:none"></div>
+  <div style="display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;margin-top:1rem">
+    <button class="btn" onclick="restartGame()">Play Again</button>
+    <button class="btn-ghost" onclick="showCast()">Meet the Survivors</button>
+  </div>
+</div>
 
+<!-- CAST MODAL -->
+<div id="cast-modal" class="modal-ov hidden">
+  <div class="modal-box">
+    <div class="modal-title">The Survivors</div>
+    <div style="display:flex;flex-direction:column;gap:.85rem;font-family:'Lora',serif;font-size:.9rem;line-height:1.7">
+      <div><span style="color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700">Pack &middot; Clemmons, NC</span><br>Soccer player. Poet. 17. Keeper of one hamster. That's all it takes to end the world and still be you.</div>
+      <div><span style="color:var(--orange);font-family:'Rajdhani',sans-serif;font-weight:700">Teo &middot; Pack's pocket</span><br>A hamster with an onion-ring tail &mdash; the result of a skillet accident involving hot onions. Pack's best friend. Somehow always right.</div>
+      <div><span style="color:var(--green);font-family:'Rajdhani',sans-serif;font-weight:700">John &middot; Lewisville, NC</span><br>Pack's loyal best friend. Tech-savvy and unshakeable. The kind of guy who shows up &mdash; always, no matter what.</div>
+      <div><span style="color:var(--blue);font-family:'Rajdhani',sans-serif;font-weight:700">Luke &middot; Ashford Ridge</span><br>Athletic and sharp. Resourceful in any terrain. Born east of the Yadkin River, in a settlement no longer on any map.</div>
+      <div><span style="color:var(--blue);font-family:'Rajdhani',sans-serif;font-weight:700">Cooper &middot; Duskfield</span><br>Pure athlete. From a ghost town renamed after the color of the sky on impact day. Fast and fearless.</div>
+      <div><span style="color:var(--blue);font-family:'Rajdhani',sans-serif;font-weight:700">Bennet &middot; Greyhollow</span><br>Strong, steady, built for the new world. Doesn't waste words. Doesn't miss.</div>
+      <div><span style="color:var(--purple);font-family:'Rajdhani',sans-serif;font-weight:700">Simon &middot; Unknown shelter</span><br>Pack's brother. Location unknown. Status unknown. Alive. He just doesn't know it yet &mdash; and neither do you.</div>
+    </div>
+    <button class="btn" style="margin-top:1.25rem;width:100%" onclick="hideCast()">Close</button>
+  </div>
+</div>
+
+<!-- IN-GAME STORY MODAL -->
+<div id="story-modal" class="modal-ov hidden">
+  <div class="modal-box">
+    <div class="modal-title" id="smodal-title"></div>
+    <div class="modal-prose" id="smodal-prose"></div>
+    <div style="display:flex;flex-direction:column;gap:.45rem" id="smodal-choices"></div>
+  </div>
+</div>
+
+</div>
 <script>
-const WEATHERS=[
+// ══════════════════════════════════════════
+// STORY NODES
+// ══════════════════════════════════════════
+var S={
+prologue:{title:'Under the Broken Sun',pages:[
+  ["The shelter smelled like canned beans and old fear.","Pack sat on the edge of his cot, Teo nestled in the front pocket of his hoodie, his tiny onion-ring tail curling over the fabric like a question mark. Eight months underground had turned his skin pale as notebook paper."],
+  ["His parents' instructions were folded in his back pocket, worn soft at the creases.<span class='note'>\"Pack — if you're reading this alone, it means we didn't make it. Don't be afraid. You were always braver than you knew.\"<br>— His father, Harlan Sr.</span>"],
+  ["The Geiger counter had been clicking less. Not silent. But less.","He lifted Teo to eye level. The hamster looked back with the calm certainty of a creature that had never once pretended things were okay when they weren't.","\"OK Teo,\" Pack said. \"You know this is the day. If we're wrong, we die and go to Heaven. If we're right, we face the unknown.\"","Teo twitched his onion-ring tail and blinked. Pack reached for the shelter door."],
+],prompt:"The hatch is heavy. Outside could mean radiation, mutations, hostile survivors, or nothing but ash. But staying means starvation within two weeks. <em>You were always braver than you knew.</em>",
+choices:[{label:'Path A',text:'Open the door. The world is out there. Whatever it is.',next:'door_open'},{label:'Path B',text:'Wait seven more days. Monitor the Geiger counter. Then decide.',next:'door_wait'}]},
+
+door_open:{title:'The Door',pages:[
+  ["The hatch groaned like it had forgotten how to move. A sliver of light — grey, not black, not golden, but grey — cut across Pack's face. He gasped. Not from pain. From the simple shock of light existing at all.","The air hit him next. A metallic bite, like licking a penny — but underneath, something almost like rain. Almost like earth."],
+  ["He was standing in what used to be his neighborhood in Clemmons. The houses were still upright, barely — like they were embarrassed about it.","Teo poked his head out of the pocket and sniffed aggressively. \"I know,\" Pack said. \"Smells like the end of something.\"","In the distance, half a mile down what used to be Lewisville-Clemmons Road, a thin ribbon of smoke rose into the grey sky. Someone has a fire."],
+],prompt:"Smoke means fire. Fire means a person. They could be friendly survivors — or desperate, dangerous, and armed.",
+choices:[{label:'Path A',text:'Move toward the smoke. People are the only resource that matters.',next:'toward_smoke'},{label:'Path B',text:'Stay solo. Scavenge the neighborhood first. Stay invisible.',next:'stay_solo'}]},
+
+door_wait:{title:'Seven More Days',pages:[
+  ["Pack counted the clicks and set down his hand. Still too many. He rationed the last canned goods — half a can per meal. Teo got pellets from the emergency supply. The shelter got quieter as the food got lower."],
+  ["On day six, the counter went nearly silent. On day seven, Pack opened the door.","The light was still grey, still wrong — but it had the quality of morning after a very bad night. He stepped outside. The neighborhood was ruins, but survivable ruins.","Seven days had cost him something. His supplies were critically low, and he was already thinner than he should be. Teo's onion-ring tail curled against his collar. At least he had that."],
+],prompt:"The delay was right — radiation is lower. But supplies are nearly gone. Pack needs resources immediately.",
+choices:[{label:'Proceed',text:'Head out. Find what\'s left.',next:'toward_smoke',eff:{food:-2,health:-5,radiation:-10}}]},
+
+toward_smoke:{title:'A Familiar Voice',pages:[
+  ["Pack kept low, staying close to the skeletal trees. The smoke was steady — someone tending a fire. As he got closer he heard something that stopped him completely. A voice. Laughing quietly at something."],
+  ["He stepped into the clearing and saw him — dark curly hair matted with ash, cross-legged beside a small fire, stirring a dented pot. A salvaged radio receiver sat beside him, half disassembled. The guy didn't look up.","\"You walk loud for a guy trying to be quiet.\" A pause. \"Also your hamster is looking at me.\""],
+  ["Pack froze. Then: \"John?\"","John from Lewisville looked up. His face broke open like a window letting in the only light left in the world.","\"Pack.\" He stood, knocked his pot sideways, didn't care. \"Pack, man. I thought—\" He didn't finish. He didn't have to. Teo made a small sound. John looked at him. \"Teo still alive too. Of course he is.\" He righted the pot. \"Sit down. Tell me everything.\""],
+],prompt:"John has tracked two radio signals. One from the mountains west — organized, with routines. One from Raleigh east, where Pack's parents' note points. The eastern signal is getting weaker every day.",
+choices:[{label:'Path A — Go West',text:'Trust John\'s signal. Head to the mountains.',next:'go_west'},{label:'Path B — Go East',text:'Head east. Trust the plan. Trust your parents.',next:'go_east'}]},
+
+stay_solo:{title:'Ghost in the Ruins',pages:[
+  ["Pack moved through his old neighborhood like a shadow. Three houses in, he found canned food for another week. On day two, he found a hardware store and salvaged wire, pipe, and a hand-crank radio — heavy but functional."],
+  ["On day three, the radio crackled to life. A voice. Male. Laughing quietly at something.","\"Broadcasting to anyone in range. This is John, Lewisville. I have food and supplies. Heading west toward the mountain signal. If you know me — come find me.\"","Pack almost answered. He sat with Teo in the ruins of a neighbor's kitchen and listened to John broadcast for two hours before the signal moved on. He could have called back. He didn't know yet what that would cost him."],
+],prompt:"Pack has supplies now, but he's alone. John's signal is still faintly audible — heading west. Does he follow, or build his own route east?",
+choices:[{label:'Follow John West',text:'Call back. Catch up. Head to the mountains together.',next:'go_west',eff:{food:2,scrap:2}},{label:'Go East Alone',text:'Head east alone. The mountain people are strangers.',next:'solo_east_john_fate'}]},
+
+solo_east_john_fate:{title:'The Radio Goes Quiet',pages:[
+  ["Pack made good time east. For three days he moved fast, let Teo guide him around danger, found water and food. He was good at being alone.","On day four, John's voice came through the radio again. Closer to the mountains now. Farther from Pack.","\"Still here,\" John said. \"Found good people heading to Ashford Ridge. If anyone I know is listening — come west. We'll leave a marker at the Yadkin bridge.\"","Pack held the radio. Didn't answer."],
+  ["Two days later, John stopped broadcasting. Pack told himself John had just reached the compound. No need to transmit anymore.","He kept telling himself that.","Then, five days after the silence — static. And John's voice, different. Afraid.","<span class='note' style='color:var(--red);border-color:var(--red)'>\"— Pack if you're listening — they took — I don't know where — Teo, keep him — \"</span>","Then nothing. Not even static. Just the frequency where John used to be."],
+  ["Pack stood in the ruins of a Raleigh suburb with the silent radio in his hands and understood that some choices you make without knowing you're making them.","The Raleigh bunkers were empty when he got there. On the wall: <span class='em'>WE LEFT FOR THE MOUNTAINS. FOLLOW THE WESTERN SIGNAL.</span>","John was gone. No one ever found out what happened. That story ended the way too many stories end — mid-sentence, in static, without a period.","Pack turned west. He carried the frequency in his head for the rest of his life."],
+],prompt:"West is all that's left. Pack goes alone — carrying what he knows and what he'll never know.",
+choices:[{label:'Head West',text:'Go west. Honor John\'s last transmission. Find Ashford Ridge.',next:'dogs_hold',eff:{teoMorale:-25,health:-10},alone:true}]},
+
+go_east:{title:'East, Toward Raleigh',pages:[
+  ["Pack folded the note. His parents had thought about this. They'd chosen Raleigh for a reason.","John looked at him for a long moment. \"The eastern signal is getting weaker every day, Pack. That's not good.\" \"I know,\" Pack said. \"I still have to go.\"","John nodded once. They parted at the edge of the neighborhood — two boys from the same road going opposite directions into the same broken world."],
+  ["The road east was harder than expected. Ash storms on day two. A pharmacy with meds but high radiation — he moved fast. By day five he understood why the signal was failing.","The Raleigh bunkers were real. Once. The infrastructure was all there — blast doors, ventilation, the whole architecture of survival.","But they were empty. Not abandoned. Emptied. Deliberately. Recently. On the wall near the main entrance, in careful spray-paint: <span class='em'>WE LEFT FOR THE MOUNTAINS. FOLLOW THE WESTERN SIGNAL. — REMNANT FORCE RIDGELINE</span>"],
+],prompt:"The bunkers are empty. Everyone went west. Pack's parents' plan pointed east — but east has nothing. The western signal is still audible on a radio he found in the bunker.",
+choices:[{label:'Head West',text:'Follow everyone else. Go west. Find the mountain signal.',next:'east_turns_west'},{label:'Search More',text:'Stay and search. Maybe there\'s something left. Maybe someone.',next:'bunker_search'}]},
+
+east_turns_west:{title:'Turning Back',pages:[
+  ["Pack pressed transmit. \"John. It's Pack. I'm at the Raleigh bunkers. Everyone went west. I'm following.\"","Static. Then: \"PACK.\" Disbelieving. \"You absolute — how far east are you?\" \"Four days.\" A pause. \"OK. I'll wait at the Yadkin bridge. Don't get eaten.\""],
+  ["The walk back west was different. Pack knew the world now. He moved faster, let Teo guide him around two ambush points.","Three days later, John at the Yadkin bridge, leaning against a road sign, eating from a can with the patience of someone who had never doubted Pack would show up.","\"You went all the way to Raleigh,\" John said. \"My parents said east.\" \"Your parents,\" John said carefully, \"would have told you to do whatever kept you alive.\"","Pack thought about that. He handed John half his water. They walked west together."],
+],prompt:"Together now — but Pack lost four days. Resources are lower, radiation exposure higher.",
+choices:[{label:'Proceed West Together',text:'Head to the mountains with John.',next:'dogs_hold',eff:{food:-2,meds:-1,radiation:15}}]},
+
+bunker_search:{title:'What the Bunkers Kept',pages:[
+  ["Pack searched two days. Most was emptied methodically — but not perfectly. In a sealed supply room: medical supplies, rations, a military-grade radio.","The radio was the real find. With it, he could hear the western signal clearly and something else: a second signal from the north. Camp Ridgeline. Coordinates included."],
+  ["He was calibrating when the radiation alarm tripped. He'd stayed too long. He grabbed everything and moved fast.","Outside, breathing hard, he had military-grade supplies and Ridgeline's exact coordinates. He also had moderate radiation exposure and no company.","He chose to find the compound first. Don't arrive at Ridgeline alone."],
+],prompt:"Well-supplied but exposed. The mountains are three days west.",
+choices:[{label:'Head West',text:'Find Ashford Ridge. Don\'t go to Ridgeline alone.',next:'dogs_hold',eff:{food:3,meds:3,radiation:20}}]},
+
+go_west:{title:'West, Into the Mountains',pages:[
+  ["The road west was a graveyard of cars — doors open, as if the people had evaporated. Pack stopped looking through the windows after the first day. John never looked at all.","John moved efficiently, logically — five water sources and two scavengeable neighborhoods already mapped. When the radio crackled he'd hold up one finger, translating static into meaning. Pack wrote poetry in his head. They were somehow the same thing."],
+  ["By day two, the foothills. A few stubborn leaves still clinging on — dark and waxy. Pack composed something about them. Didn't say it out loud.","Then Teo stopped going back in the pocket. He sat rigid on Pack's shoulder, nose working frantically at the treeline ahead. John had his hand on his knife before Pack registered why.","Three shapes. Dogs, once. Moving too fluid, too low. Eyes filmed white — but tracking them precisely. Mutations."],
+],prompt:"Three mutated dogs. Circling. John's knife is out. Teo is rigid on Pack's shoulder — trembling, but not fleeing.",
+choices:[{label:'Path A — Hold Still',text:'Don\'t provoke. Stand completely still. Let them decide.',next:'dogs_hold'},{label:'Path B — Make Noise',text:'Throw something. Shout. Drive them back.',next:'dogs_noise'}]},
+
+dogs_hold:{title:'The Dogs',pages:[
+  ["Pack put a hand on John's arm. John looked at him. Pack shook his head once. They stood frozen for what felt like a geological era.","The lead dog stopped circling. Lowered its head. Then — a sound. Small, confused, heartbreaking. A whine, like the dog it used to be was still in there, lost and looking for the world it remembered."],
+  ["Teo made a tiny sound back.","The dog looked directly at Teo. Its strange tail moved — once. Almost a wag. Then it turned and disappeared. The others followed.","John let out a breath. \"Your hamster just negotiated with a mutated dog.\" \"He does that,\" Pack said."],
+],choices:[{label:'Keep Moving',text:'Continue west. Ashford Ridge is two days ahead.',next:'ashford_arrive',eff:{teoXP:20,teoMorale:15}}]},
+
+dogs_noise:{title:'The Dogs',pages:[
+  ["Pack grabbed a rock and hurled it. John shouted — a raw, full-throat sound that echoed off the dead hills. Two dogs scattered. The lead one didn't.","It dropped low. White eyes locked on Pack. It made a sound that wasn't a growl and wasn't a bark — something new the world had invented for the occasion."],
+  ["Pack threw another rock, directly at it. Hit. The dog snapped at empty air, then turned — slowly — and disappeared after the others.","\"Did that work?\" John said. \"Mostly,\" Pack said. His heart was hammering. Teo had his face buried in Pack's collar. He stayed that way for two miles."],
+],choices:[{label:'Keep Moving',text:'Move fast before they circle back.',next:'ashford_arrive',eff:{health:-5,teoMorale:-15}}]},
+
+ashford_arrive:{title:'Ashford Ridge',pages:[
+  ["The compound was carved into a ridge — salvaged timber and steel, a generator humming below ground. Sixty survivors. Real beds. A kitchen.","Inside: two familiar faces. Luke from Ashford Ridge and Bennet from Greyhollow, arrived three weeks earlier. Luke clapped Pack on the back. Bennet shook his hand once — from Bennet, that was warmth."],
+  ["Elias did intake himself. Former FEMA. Steady eyes, no wasted words. He heard about Pack's background — soccer, poetry.","\"Soccer's useless,\" he said. \"But poetry — we had a woman here who kept people human. We lost her last month.\" He studied Pack. \"People are forgetting how to be people. That's a survival problem.\""],
+  ["Cooper had arrived solo from Duskfield two days before Pack and John and already reorganized the perimeter patrol. John fixed the compound radio within a week.","Then a scout returned: the eastern signal from Raleigh had gone dark. Not faded. Switched off. Military vehicles were heading west."],
+],prompt:"Elias looks at Pack. Soccer is useless. But poetry kept people human.",
+choices:[{label:'Path A — Accept',text:'Accept the role. Words are shelter too.',next:'poet_role'},{label:'Path B — Decline',text:'Ask to scout instead. Stay useful in the field.',next:'scout_role'}]},
+
+poet_role:{title:'The Poet',pages:[
+  ["That first night, 58 pairs of hollow eyes watching him, Pack understood something new about words. They were shelter too.","He read the poem he'd composed on the road — about trees with dark stubborn leaves still clinging on. Two people cried. Luke laughed — not mockingly, but with the recognition of someone who'd been trying to name a feeling for months."],
+  ["Bennet said nothing but nodded once. From Bennet, that was a standing ovation.","Elias watched from the doorway. Next morning, extra food in Pack's ration. That was apparently approval."],
+],prompt:"Military vehicles approaching. Elias calls a group vote. John: observe. Luke and Cooper: make contact. Bennet is silent. Elias looks at Pack.",
+choices:[{label:'Path A — Observe',text:'Dark the compound. Watch before committing.',next:'go_dark'},{label:'Path B — Contact',text:'Make contact. Resources now outweigh caution.',next:'make_contact'}]},
+
+scout_role:{title:'The Scout',pages:[
+  ["The scout role suited Pack — moving through terrain, reading wind, letting Teo's nose navigate. He covered more ground than anyone and Teo's early warning had saved him twice in the first week.","He still wrote poems. Just kept them in the margins of Cooper's maps."],
+  ["On a solo run north, he found a sealed access road, recently used. Vehicle tracks — too organized for scavengers. He reported it to Elias.","Three days later: military vehicles. The eastern signal from Raleigh had gone dark. Elias calls a vote."],
+],prompt:"Military vehicles approaching. The tracks Pack found match their approach route.",
+choices:[{label:'Path A — Observe',text:'Dark the compound. You know the terrain.',next:'go_dark'},{label:'Path B — Contact',text:'They chose a visible approach deliberately. Meet them.',next:'make_contact'}]},
+
+go_dark:{title:'Go Dark',pages:[
+  ["Sixty people in the dark. Generator off. Fires out. Pack sat with Teo in his lap, John beside him, both listening.","Three vehicles rolled up the mountain road and stopped a quarter mile out. Voices. Not words. Two hours. Then they left."],
+  ["In the morning, Bennet found what they'd left at the road — a sealed metal case. Inside: medical supplies, ration packs, and a handwritten note on official stationery.","<span class='note'><span class='em'>\"We know you're here. We're not the enemy. Camp Ridgeline — 40 miles north. Come when you're ready. — Commander V. Okafor, US Remnant Forces\"</span></span>","John examined the case. \"Military-grade. Recent manufacture. This wasn't looted.\" He looked at Pack. \"I think it's real.\"","Teo had settled on top of the note like he'd made a decision. Luke almost smiled. \"I'm voting with the hamster.\""],
+],prompt:"Elias sends a small team to scout Ridgeline: Pack, John, Cooper, Luke. A crossroads ahead — fast route through a ruined town, or two extra days through open country.",
+choices:[{label:'Path A — Through Town',text:'Faster — and possibly supplies inside.',next:'through_newland'},{label:'Path B — Around',text:'Open ground. Less risk of ambush.',next:'around_newland'}]},
+
+make_contact:{title:'Make Contact',pages:[
+  ["Pack voted to make contact. Cooper backed him. Luke nodded.","Elias raised a green lantern at the road's edge. A minute of silence. Then one vehicle door opened."],
+  ["Commander Okafor was more direct than anyone Pack had met. She looked at the compound, looked at the firelit people, looked at Pack.","\"You the one who called the vote?\" \"One of them,\" Pack said. \"Good instinct,\" she said. \"Bad timing could've gotten you all killed. Fortunately we're actually the good guys.\"","She gave them medicine, rations, two-way radios. Then she made a request."],
+],prompt:"Okafor's terms are fair. But she wants someone to stay at Ridgeline as a permanent liaison — someone who keeps people human. She's looking at Pack.",
+choices:[{label:'Path A — Stay',text:'Stay at Ridgeline. This is the job.',next:'stay_ridgeline'},{label:'Path B — Go Home',text:'Refuse. Non-negotiable. You go home.',next:'go_home'}]},
+
+through_newland:{title:'Through the Town',pages:[
+  ["The town had been called Newland. The sign was still standing, which felt almost offensive.","They moved building to building — Cooper on point, Luke watching exits. Most had been picked clean.","John found something in the ruins of an electronics shop: a partially functional transmitter, more powerful than anything at the compound. \"I can get this broadcasting,\" he said, already solving. \"We could reach anyone within a hundred miles.\""],
+  ["Then — footsteps from a back room. Everyone still.","A man emerged. Older, bearded, rifle held loosely — not aimed, but ready. Eyes that had stopped being surprised by anything.","\"You're heading to Ridgeline,\" he said. Not a question.","Pack said yes. The man set the rifle down. \"Name's Garrett. I worked there before Okafor took command. There's something you should know.\""],
+  ["Garrett said Ridgeline was real and Okafor was legitimate — but they'd quietly turned away survivors deemed low utility. He knew a back way in, an observation ridge. He wanted safe passage for himself, his wife, and two young kids.","Cooper: trust him. John: verify first. Luke: the intel matters either way."],
+],prompt:"Trust Garrett and take the ridge route — see Ridgeline before they see you. Or proceed to the front gate as planned.",
+choices:[{label:'Path A — Trust Garrett',text:'Take the ridge route. See Ridgeline first.',next:'trust_garrett'},{label:'Path B — Front Gate',text:'Front gate. Okafor left good faith. Return it.',next:'front_gate'}]},
+
+around_newland:{title:'Open Country',pages:[
+  ["Two extra days. Open sky, a working stream, a farmhouse root cellar that hadn't been touched. They ate actual vegetables. Luke identified three edible plants Pack couldn't have named."],
+  ["By the time they reached Ridgeline they were behind schedule and better supplied than they'd been since the shelter.","The gate guard looked at Teo on Pack's shoulder. \"Is that a hamster?\" \"He kept us alive,\" Pack said. It wasn't untrue."],
+],choices:[{label:'Enter Ridgeline',text:'Go in. Meet Commander Okafor.',next:'front_gate'}]},
+
+trust_garrett:{title:'The Ridge',pages:[
+  ["Garrett knew the mountains the way John knew circuits — precisely, in a language made of instinct and repetition.","He led them to a ridge overlooking Ridgeline just before dusk. Through binoculars: real, organized, 200 people, more infrastructure than they'd imagined. And three people being turned away at the gate."],
+  ["Pack watched them go. They didn't look dangerous. They looked like him, eight months ago, at a shelter door.","Cooper was quiet. \"We go in,\" he said. \"But we tell them about the compound first. We arrive as an alliance offer, not a resource request.\" Pack looked at him. Cooper shrugged. \"What? I'm athletic, not stupid.\"","John was already running the math on combined resources. Luke was watching the treeline. Teo's tail was curled contentedly against Pack's collarbone. Pack thought: <em>You were always braver than you knew.</em>"],
+],choices:[{label:'Enter as Alliance',text:'Go in together. Meet Okafor as partners.',next:'okafor_full'}]},
+
+front_gate:{title:'The Front Gate',pages:[
+  ["Pack walked up with his hands visible and Teo on his shoulder. The gate guard keyed a radio: \"Commander. There's a kid at the gate with a hamster. Says he's from the Boone compound.\"","A pause. Then Okafor's voice: \"Let them in.\""],
+  ["Okafor met them in a briefing room. She listened to everything Pack said — completely, without performing.","The terms she offered were fair. Medicine and military capacity for food and morale infrastructure. An alliance. But she had one condition."],
+],choices:[{label:'Hear the Condition',text:'What does she want?',next:'okafor_full'}]},
+
+okafor_full:{title:'Commander Okafor',pages:[
+  ["\"I have soldiers,\" Okafor said. \"I don't have someone who keeps people human.\" She wanted Pack at Ridgeline as a permanent liaison. Not a prisoner. A communicator.","\"John, Cooper, and Luke would return to Boone. You'd stay. Alone, except for Teo.\""],
+  ["Pack looked at John. John looked back — the look of someone who had already done the calculation and didn't like the answer but trusted it.","\"You'll be okay,\" John said. He said it the way you say something you're deciding to believe.","Cooper gripped Pack's shoulder once. Said nothing. That said everything. Luke gave Teo a small scratch behind the ears. \"Keep him safe,\" he told the hamster."],
+],prompt:"Stay at Ridgeline — or go home with your people.",
+choices:[{label:'Path A — Stay',text:'Stay. This is the job. This is what you\'re for.',next:'stay_ridgeline'},{label:'Path B — Go Home',text:'Refuse. Non-negotiable. You go home.',next:'go_home'}]},
+
+stay_ridgeline:{title:'The Sun Is Trying',pages:[
+  ["Pack handed John the folded note from his parents — just the first part. \"Give this to Elias. Tell him it applies to all of them.\"","He watched them walk back down the mountain road until the grey distance swallowed them.","He was 17 years old. He had survived a nuclear war. He had found his best friend in the ash and walked through mutation and darkness and arrived at the specific loneliness of being exactly where you're supposed to be."],
+  ["He took out the scrap of paper he always kept for poems. Wrote four words. <span class='em'>The sun is trying.</span>","Six months later, the alliance held. Boone and Ridgeline merged into a survivor network. Geiger readings declining. Small plants — strange, stubborn — pushing through the ash.","Then: a transatlantic signal. Survivors in Scotland, calling to North America. Asking if anyone is left. Pack was the one who answered."],
+],prompt:"What does Pack say?",
+choices:[
+  {label:'Still Becoming',text:'"We are here. We are fewer than before, but we are here. And we are still becoming."',next:'end_stay',eff:{health:10,food:3,teoMorale:15}},
+  {label:'Still Kind',text:'"North America answers. We have fire, food, and people who remember how to be kind."',next:'end_stay',eff:{meds:3,water:3,teoMorale:10}},
+  {label:"The Poem",text:'Pack reads them a poem instead. Something true. Something only a boy from Clemmons who carried a hamster through the end of the world could write.',next:'end_poem',eff:{teoMorale:30,teoXP:30,health:15}},
+]},
+
+go_home:{title:'Going Home',pages:[
+  ["\"Non-negotiable,\" Pack said. \"I go with my people.\"","Okafor looked at him. Then nodded once — the nod of someone confirming what they suspected.","\"Different condition: you come back monthly. Liaison visits. Regular.\" Pack looked at John. John looked like someone had lifted a weight from his shoulders. \"Deal,\" Pack said."],
+  ["The walk back to Ashford Ridge felt different from every other walk. He knew where he was going. He knew people would be there. Teo's tail curled against his collarbone the whole way.","Six months later, the alliance held. And the signal came in from Scotland."],
+],prompt:"What does Pack say — with John sitting right next to him?",
+choices:[
+  {label:'Still Here',text:'"We are here. Fewer than before — but still becoming."',next:'end_home',eff:{health:10,food:3,teoMorale:10}},
+  {label:'Still Kind',text:'"We have fire, food, and people who remember how to be kind."',next:'end_home',eff:{meds:3,water:3,teoMorale:8}},
+  {label:"The Poem",text:'Pack reads them a poem. John is sitting right next to him when he does.',next:'end_home_poem',eff:{teoMorale:25,teoXP:25,health:10}},
+]},
+
+// ENDINGS
+end_stay:{isEnd:true,win:true,title:'The Sun Is Trying',
+msg:"Day 183. The signal from Scotland crackled through the Ridgeline communications center. You answered. You told them the truth. Somewhere across the Atlantic, people heard Pack's voice — and Teo's quiet rustling in the background — and knew they weren't alone.\n\nNeither were you.",teaser:true},
+
+end_poem:{isEnd:true,win:true,title:"The Poet's Answer",
+msg:"You read them a poem. You didn't plan it — it was just the truest thing you had. When you finished, a long silence from Scotland. Then a woman's voice, wondering: \"Are you a poet?\"\n\n\"Among other things,\" you said.\n\n\"We have poets here too,\" she said. \"We thought we were the only ones.\"\n\nTeo's onion-ring tail curled against your collarbone.",teaser:true},
+
+end_home:{isEnd:true,win:true,title:'Home',
+msg:"Day 183. The signal from Scotland. John was sitting right next to you when it came in — your best friend from Lewisville, alive and present and real, the way some things in this world still were.\n\nYou answered together. He handled the technical side. You handled the words.\n\nAcross the Atlantic, people heard two voices where they'd expected silence.",teaser:true},
+
+end_home_poem:{isEnd:true,win:true,title:'Home — The Poem',
+msg:"You read them a poem with John sitting next to you. Halfway through, he started quietly crying — not sadly, but the way people cry when something bypasses all their defenses.\n\nYou kept reading.\n\nFrom Scotland, a long silence. Then applause — crackly, distant, from survivors across an ocean who had stopped believing they'd ever hear a poem again.",teaser:true},
+
+end_john_lost:{isEnd:true,win:false,title:'The Silence That Stays',
+msg:"Pack made it to the Raleigh bunkers. Found them empty. Found the message on the wall.\n\nHe sat in the dark with the radio silent on his hip and understood, slowly, that he had been alone for too long. The radiation was higher than he'd measured. The food was nearly gone.\n\nJohn's last transmission played in his head on a loop. He should have called back. He would have been the one person who could have found him.\n\nThat story ended when this one did.\n\nTeo stayed on his chest until the very end. That was something. That was everything."},
+
+};
+
+// ══════════════════════════════════════════
+// SURVIVAL DATA
+// ══════════════════════════════════════════
+var WEATHERS=[
   {name:'Clear Skies',desc:'No adverse effects.',rad:0,hm:1,tm:1},
   {name:'Ash Storm',desc:'Radiation elevated.',rad:6,hm:1.2,tm:1.3},
-  {name:'Acid Rain',desc:'Skin burns. Avoid water.',rad:3,hm:1,tm:.8,hd:3},
+  {name:'Acid Rain',desc:'Skin burns.',rad:3,hm:1,tm:.8,hd:3},
   {name:'Hot Winds',desc:'Thirst drains fast.',rad:1,hm:1.1,tm:1.6},
   {name:'Grey Mist',desc:'Reduced visibility.',rad:2,hm:1,tm:1},
   {name:'Still Air',desc:'Quiet. Good to rest.',rad:0,hm:.9,tm:.9},
-  {name:'Fallout Drizzle',desc:'Light radiation in rain.',rad:8,hm:1,tm:1.1},
+  {name:'Fallout Drizzle',desc:'Radiation in rain.',rad:8,hm:1,tm:1.1},
   {name:'Cold Snap',desc:'Energy drains faster.',rad:0,hm:1.3,tm:1,ed:5},
 ];
-const EV=[
+var EV=[
   {t:'You find an abandoned convenience store. Canned goods still on the shelf.',l:{food:2,water:1},x:5},
   {t:'A rusted car — stripped already. You salvage the little that remains.',l:{scrap:2},x:4},
   {t:'A collapsed pharmacy. Bandages and antibiotics under the rubble.',l:{meds:2},x:5},
-  {t:'Teo sniffs out a hidden cache under a floorboard. A full canteen.',l:{water:3},x:10,tx:15,to:true},
+  {t:'Teo sniffs out a hidden cache under a floorboard. A full canteen.',l:{water:2,food:1},x:10,tx:15,to:true},
   {t:'You spot scavengers and take cover. They pass without noticing you.',l:{},x:3,h:-5},
   {t:'A scavenger ambushes you. You fight him off — barely.',l:{food:1,ammo:1},x:8,h:-15},
   {t:'A working rain collector. Clean water pooling inside.',l:{water:2},x:5},
   {t:'An abandoned campsite, left in a hurry. Food and scrap remain.',l:{food:1,scrap:1},x:5},
   {t:'Teo chirps urgently. You freeze. A mutant creature passes 10 feet away, unaware.',l:{},x:4,tx:10},
-  {t:'A gas station — surprisingly untouched. Fuel canisters and road snacks.',l:{food:2,scrap:1},x:5},
-  {t:'Radiation spikes. You retreat before accumulating too much.',l:{},x:2,r:12},
+  {t:'A gas station — surprisingly untouched. Road snacks and scrap.',l:{food:2,scrap:1},x:5},
+  {t:'Radiation spikes. You retreat quickly before accumulating too much.',l:{},x:2,r:12},
   {t:'A first aid kit still on a fire station wall.',l:{meds:2,scrap:1},x:6},
   {t:"A child's backpack. Trail mix and a family photo. You take the food. Leave the photo.",l:{food:1},x:3},
   {t:'An overturned delivery truck. Canned soup in the cargo hold.',l:{food:3},x:6},
-  {t:'A sporting goods store — looted mostly, but ammo and a knife remain.',l:{ammo:3,scrap:1},x:7},
+  {t:'A sporting goods store — mostly looted, but ammo and a knife remain.',l:{ammo:3,scrap:1},x:7},
   {t:'A rooftop garden someone started. Stunted but real vegetables.',l:{food:2},x:6,tx:5},
   {t:'A school gymnasium. Sleeping bags, dried goods, portable stove.',l:{food:1,meds:1,scrap:2},x:7},
   {t:'A stream — murky but filterable. You fill your canteens carefully.',l:{water:3},x:5},
   {t:'Two scavengers fighting over supplies. You circle wide, unseen.',l:{},x:4},
-  {t:'An old hardware store. Bare shelves, but metal piping and wire remain.',l:{scrap:3},x:5},
-  {t:'Teo runs in circles — his warning. You find a trip wire and step over it.',l:{},x:8,tx:20,h:0},
+  {t:'An old hardware store. Metal piping and wire remain.',l:{scrap:3},x:5},
+  {t:'Teo runs in circles — his warning. You find a trip wire and step over it.',l:{},x:8,tx:20},
   {t:'A library, intact. Nothing useful — but you read a page before leaving.',l:{},x:3,tx:3},
   {t:'Smoke on the horizon — just a burning car. Scrap worth salvaging.',l:{scrap:2},x:4},
-  {t:'A hospital supply closet someone missed. Medical grade supplies.',l:{meds:3},x:8},
+  {t:'A hospital supply closet someone missed.',l:{meds:3},x:8},
   {t:"A journal from someone who didn't make it. Their route leads to a cache.",l:{food:2,water:1,scrap:1},x:7},
-  {t:'Mutant rats scatter as you enter an apartment. Canned food in the walls.',l:{food:2},x:5,h:-5},
+  {t:'Mutant rats scatter as you enter. Canned food hidden in the walls.',l:{food:2},x:5,h:-5},
   {t:'A bunker door — unlocked. Inside: enough food for days.',l:{food:3,water:2,meds:1},x:10},
   {t:'You trade scrap with a lone survivor. Both walk away better off.',l:{food:1,meds:1},x:6,sc:2},
   {t:'A grocery warehouse. Mostly spoiled, but canned goods in the back.',l:{food:3,water:1},x:7,r:5},
   {t:'An undisturbed church. Emergency rations in the basement.',l:{food:2,water:1},x:5},
   {t:'Teo digs near rubble — a waterproof box with medicine inside.',l:{meds:2},x:6,tx:15,to:true},
-  {t:"A survivors' message board with resource locations. You note two spots.",l:{food:1,water:1},x:5},
+  {t:"A survivors' message board. Resource locations marked. You note two.",l:{food:1,water:1},x:5},
 ];
-const TL=[
+var TL=[
   {level:0,title:'Untrained Pup',xp:30,unlock:null},
   {level:1,title:'Scent Tracker',xp:80,unlock:'Scent Detection: Teo finds hidden caches more often.'},
-  {level:2,title:'Wasteland Scout',xp:160,unlock:'Early Warning: Teo alerts you to traps before they strike.'},
-  {level:3,title:'Bonded Companion',xp:999,unlock:"Morale Anchor: Teo's presence reduces your hunger drain."},
+  {level:2,title:'Wasteland Scout',xp:160,unlock:'Early Warning: Teo warns you before traps strike.'},
+  {level:3,title:'Bonded Companion',xp:999,unlock:"Morale Anchor: Teo reduces your hunger drain."},
 ];
-const SB=[
-  {id:'find_john',day:3,title:'A Familiar Voice',prose:["A thin ribbon of smoke rises from a ruined lot. Someone has a fire.","You keep low — then stop. A voice, laughing quietly at something.","Dark curly hair matted with ash, a dented pot on the fire, a salvaged radio half-disassembled at his side. He doesn't look up.","\"You walk loud for a guy trying to be quiet.\" A pause. \"Also your hamster is looking at me.\"",'"John?"',"John from Lewisville looks up. His face breaks open like a window letting in the only light left in the world."],ch:[{t:'Sit down. Tell him everything.',l:'Reunite',e:{food:2,meds:1,tm:10}}],log:'Found John from Lewisville. Not alone anymore.',lt:'important'},
-  {id:'johns_radio',day:4,title:'Signals in the Dark',prose:["John works on his receiver all day. At dusk, he holds up a hand. Static — then something organized. A pattern.","\"Someone's broadcasting,\" he says quietly. \"More than one someone.\"","You eat cold soup and listen to the crackle long after it fades. For the first time in weeks, the silence doesn't feel empty."],ch:[{t:"Keep listening. Find where it's coming from.",l:'Stay Curious',e:{scrap:1,tx:5}}],log:"John's radio picked up organized signals.",lt:'story'},
-  {id:'the_signal',day:5,title:'The Signal',prose:["Two signals. One from the mountains west — steady, organized. One from Raleigh east, where your parents' note said to go. It's getting weaker.","\"The mountain signal sounds like real people,\" John says.","You hold the note your parents left. Three weeks old. The Raleigh frequency hasn't shifted once — no one is adjusting it anymore.","Teo is already angled west. You fold the note and tuck it in your front pocket, where you keep things you don't want to lose."],ch:[{t:'Head west. Follow the living signal.',l:'Go West',e:{scrap:1,tm:5}},{t:'Head east. Honor the plan.',l:'Go East',e:{water:1}}],log:'Two signals. You chose your direction.',lt:'important'},
-  {id:'luke_bennet',day:6,title:'Three More',prose:["You hear them before you see them — three voices arguing about a map that is clearly wrong.","Luke is tall, easy-laughing. The kind of person who makes a hard situation survivable just by being in it.","Bennet stands apart, watching the treeline. He clocks you first. Nods once. From Bennet, that's a full greeting.","Cooper looks up at you, looks at Teo, looks back at you. \"Is that a hamster?\"","\"He's saved my life twice,\" you say.","Cooper studies Teo. Teo studies him back. \"OK,\" Cooper says. \"We're going the same direction anyway.\""],ch:[{t:'Travel together. More eyes, more chances.',l:'Join Up',e:{food:1,scrap:1,tm:10}}],log:'Found Luke, Bennet, and Cooper. Group of five now.',lt:'important'},
-  {id:'the_dogs',day:7,title:'The Dogs',prose:["Teo goes rigid. From the treeline: three shapes. Dogs, once. Moving too low, too fluid. Eyes filmed white — but tracking you.","You put a hand on John's arm. He freezes. You shake your head.","The lead dog lowers its head and makes a sound. Small, confused, heartbreaking — like the dog it used to be is still in there, lost.","Teo makes a tiny sound back. The dog's tail moves once. Almost a wag. Then it turns and disappears.","John exhales. \"Your hamster just negotiated with a mutant dog.\""],ch:[{t:'"He does that." Keep moving.',l:'Continue',e:{tm:15,tx:20}}],log:'Teo de-escalated three mutant dogs.',lt:'teo'},
-  {id:'coopers_map',day:8,title:"Cooper's Map",prose:["Cooper's been updating the map since Day 6 — every landmark, every scavenger trail.","At camp he spreads it out. Bennet points to a ridge. Luke suggests a detour around the industrial district.","\"Three days if the weather holds,\" Cooper says. \"Five if it doesn't.\"","Teo climbs onto the map and sits on the mountains. Everyone laughs for the first time in a long time."],ch:[{t:'Plan the route. Mark the waypoints.',l:'Plan Ahead',e:{food:1,scrap:1}}],log:"Cooper's map is taking shape. Mountains are three days out.",lt:'story'},
-  {id:'ashford_ridge',day:10,title:'Ashford Ridge',prose:["The compound is carved into a ridge — salvaged timber and steel, a generator humming below ground. Sixty survivors. Real beds. A kitchen.","Elias does intake himself. Former FEMA. Steady eyes, no wasted words.","\"Soccer's useless,\" he says. \"But poetry — we had someone who kept people human. We lost her last month.\" He studies you. \"People are forgetting how to be people. That's a survival problem.\"","Luke is already inside talking to three people at once. Bennet has claimed a corner. Cooper is drawing a map on the wall."],ch:[{t:'Accept the role. Words are shelter too.',l:'Stay & Write',e:{health:15,food:2,tm:10}},{t:'Scout instead. Stay useful in the field.',l:'Scout Role',e:{ammo:3,scrap:2}}],log:'Reached Ashford Ridge. 60 survivors.',lt:'important'},
-  {id:'first_week',day:12,title:'What Holds',prose:["A week at Ashford Ridge. You learn what holds a place like this together: routine, shared meals, the small ceremonies people invent to feel human.","You write. Some of it you read aloud at dinner. Elias listens from the doorway — next morning there's extra food in your ration.","Teo has become compound mascot. Cooper built him a run from scrap wire. Children visit."],ch:[{t:'Keep writing. This is what you can give.',l:'Write On',e:{tm:10,food:1,health:5}}],log:'First week at Ashford Ridge. Finding your place.',lt:'story'},
-  {id:'the_military',day:14,title:'The Military',prose:["John fixed the compound radio. Then a scout returned: the Raleigh signal had switched off. Military vehicles were heading west.","Elias calls a vote. John: observe. Luke and Cooper: make contact. Bennet is silent.","Elias looks at you."],ch:[{t:'Observe. Go dark. Watch before committing.',l:'Go Dark',e:{scrap:3,meds:2}},{t:'Make contact. Resources outweigh caution.',l:'Make Contact',e:{meds:3,food:3}}],log:'Military spotted. The compound voted.',lt:'important'},
-  {id:'night_watch',day:16,title:'Night Watch',prose:["You pull watch with Bennet. Two hours, the perimeter fence, a sky that is still wrong colors.","At one point he says: \"You doing OK?\"","You think about the note in your pocket. Your parents. The signal that went quiet.","\"Getting there,\" you say.","Bennet nods. Teo shifts in his pouch and makes a small sound.","\"Hamster agrees,\" Bennet says. That's all either of you need."],ch:[{t:'Stand watch until dawn.',l:'Stand Watch',e:{tm:8,health:5}}],log:'Night watch with Bennet. Some things get said without words.',lt:'story'},
-  {id:'okafor',day:18,title:'Commander Okafor',prose:["Commander Okafor is sharp and honest. Camp Ridgeline, 40 miles north — 200 people, real infrastructure. The terms are fair.","But she has one condition: you stay at Ridgeline as liaison. John, Cooper, Luke, Bennet return to Ashford Ridge. You'd be alone — except for Teo.","Teo is watching you from the table. Completely calm. Whatever you decide, he goes too."],ch:[{t:'Stay at Ridgeline. This is the job now.',l:'Stay',e:{meds:2,food:2,water:2,tm:5}},{t:'Go home with your people.',l:'Return Home',e:{scrap:4,ammo:4,tm:10}}],log:'Negotiated with Commander Okafor. Alliance secured.',lt:'important'},
-  {id:'seeds',day:20,title:'Something Growing',prose:["A survivor named Daria shows you something in the south corner: a patch of ground she's been working. Kale. Stunted, pale — but unmistakably alive.","\"The soil is healing,\" she says. \"Faster than anyone expected.\"","You crouch down and look at it. Teo sniffs the edge of the planter.","It's just kale. But you write about it that night and can't stop."],ch:[{t:'Help Daria expand the garden.',l:'Plant Seeds',e:{food:2,tx:10,tm:8}}],log:'Something is growing at Ridgeline. The ground is healing.',lt:'story'},
-  {id:'transatlantic',day:22,title:'The Sun is Trying',prose:["Six months since the bombs. The alliance holds. Geiger readings are declining. Small plants pushing through the ash.","Then: a transatlantic signal. Survivors in Scotland, calling out to North America. Asking if anyone is left.","The room goes quiet. Everyone looks at you. You look at Teo. He blinks once — hamster for: go ahead."],ch:[{t:'"We are here. Fewer than before — but still becoming."',l:'Still Becoming',e:{health:20,food:3,tm:15}},{t:'"We have fire, food, and people who remember how to be kind."',l:'Still Kind',e:{meds:3,water:3,tm:10}},{t:'Read them a poem. Something true.',l:"The Poet's Answer",e:{tm:30,food:2,tx:30,health:10}}],log:'Answered a signal from Scotland. The world is still out there.',lt:'important',fin:true},
+var BEATS=[
+  {id:'b3',day:3,title:"John's Radio",prose:["John's fixed receiver crackles to life. Two signals clear enough to track. He maps them by morning.","\"Whatever we decide,\" he says, \"at least now we're deciding with information.\" Teo rides on the radio and looks pleased with himself."],ch:[{t:'Keep exploring.',l:'Noted',e:{scrap:1}}]},
+  {id:'b6',day:6,title:"Cooper's Map",prose:["Cooper spreads his updated map at dinner. Every route marked, every trail, every shortcut.","It's starting to look like a real thing — like something with a future."],ch:[{t:'Plan the next route.',l:'Plan Ahead',e:{food:1}}]},
+  {id:'b10',day:10,title:"Daria's Garden",prose:["A survivor named Daria shows you a patch of ground: kale. Stunted, pale — but unmistakably alive.","\"The soil is healing,\" she says. \"Faster than anyone expected.\" You write about it that night and can't stop."],ch:[{t:'Help expand the garden.',l:'Plant Seeds',e:{food:2,teoXP:10,teoMorale:8}}]},
+  {id:'b14',day:14,title:"Night Watch",prose:["You pull watch with Bennet. Two hours, the fence, a sky still the wrong colors.","At one point: \"You doing OK?\" You think about the note in your pocket. \"Getting there,\" you say. Bennet nods. Teo shifts. \"Hamster agrees,\" Bennet says. That's all either of you need."],ch:[{t:'Stand watch until dawn.',l:'Stand Watch',e:{teoMorale:8,health:5}}]},
 ];
 
-let G={};
-function defaultState(){return{day:1,phase:'Dawn',health:100,hunger:80,thirst:80,energy:100,radiation:0,teoMorale:100,teoHunger:80,teoThirst:80,teoXP:0,teoLevel:0,inv:{food:3,water:3,scrap:2,meds:1,ammo:0},weapon:'Makeshift Spear',armor:'Tattered Clothes',xp:0,shown:[],weather:WEATHERS[0],log:[],acts:0,dead:false};}
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+var G={};var curNode=null;var curPage=0;var pathLog=[];
 
-function startGame(){G=defaultState();showScreen('main');addLog('You step outside. Grey sky. Metallic air. Teo twitches his nose. Time to move.','story');render();saveGame();}
-function resetGame(){showScreen('intro');localStorage.removeItem('packteo_save');}
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
-function showTab(id,btn){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');if(btn)btn.classList.add('active');}
+function defaultG(){return{day:1,phase:'Dawn',health:100,hunger:80,thirst:80,energy:100,radiation:0,teoMorale:100,teoHunger:80,teoThirst:80,teoXP:0,teoLevel:0,inv:{food:3,water:3,scrap:2,meds:1,ammo:0},weapon:'Makeshift Spear',armor:'Tattered Clothes',xp:0,beatsShown:[],weather:WEATHERS[0],log:[],acts:0,dead:false};}
 
-function saveGame(){try{localStorage.setItem('packteo_save',JSON.stringify(G));}catch(e){}}
-function loadGame(){try{const s=localStorage.getItem('packteo_save');if(s){G=JSON.parse(s);showScreen('main');render();return true;}}catch(e){}return false;}
+// ══════════════════════════════════════════
+// SCREEN & TAB
+// ══════════════════════════════════════════
+function showScreen(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});document.getElementById(id).classList.add('active');}
+function showTab(id,btn){document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});document.getElementById('tab-'+id).classList.add('active');if(btn)btn.classList.add('active');}
+function showCast(){document.getElementById('cast-modal').classList.remove('hidden');}
+function hideCast(){document.getElementById('cast-modal').classList.add('hidden');}
 
-function addLog(text,type=''){G.log.unshift({d:G.day,text,type});if(G.log.length>80)G.log.pop();renderLog();}
-function renderLog(){const el=document.getElementById('log-panel');if(!el)return;el.innerHTML=G.log.map(e=>`<div class="log-entry ${e.type}"><span class="ld">D${e.d}</span>${e.text}</div>`).join('');}
+// ══════════════════════════════════════════
+// READER
+// ══════════════════════════════════════════
+function beginStory(){pathLog=[];G=defaultG();navTo('prologue');showScreen('reader');}
 
-function render(){
-  ['health','hunger','thirst','energy'].forEach(k=>{
-    const v=Math.round(G[k]);
-    document.getElementById('sv-'+k).textContent=v;
-    document.getElementById('sb-'+k).style.width=Math.min(100,Math.max(0,G[k]))+'%';
-  });
-  document.getElementById('sv-radiation').textContent=Math.round(G.radiation);
-  document.getElementById('sb-radiation').style.width=Math.min(100,G.radiation)+'%';
-  document.getElementById('sv-teo').textContent=Math.round(G.teoMorale);
-  document.getElementById('sb-teo').style.width=Math.min(100,Math.max(0,G.teoMorale))+'%';
-  document.getElementById('day-badge').textContent='Day '+G.day+' \u2014 '+G.phase;
-  document.getElementById('weather-badge').textContent=G.weather.name+' \u2014 '+G.weather.desc;
+function navTo(nid,pendEff){
+  var node=S[nid];if(!node){console.warn('Missing:',nid);return;}
+  curNode=node;curPage=0;
+  if(pendEff)applyEff(pendEff);
+  if(node.isEnd){showEnd(node);return;}
+  renderPage();showScreen('reader');
+}
 
-  const inv=G.inv;
-  const items=[{k:'food',i:'\uD83C\uDF71',n:'Food'},{k:'water',i:'\uD83D\uDCA7',n:'Water'},{k:'scrap',i:'\uD83D\uDD27',n:'Scrap'},{k:'meds',i:'\uD83D\uDC8A',n:'Meds'},{k:'ammo',i:'\uD83D\uDD2B',n:'Ammo'}];
-  const ig=document.getElementById('inv-grid');
-  if(ig)ig.innerHTML=items.map(i=>'<div class="inv-item"><span class="inv-icon">'+i.i+'</span><span class="inv-name">'+i.n+'</span><span class="inv-count">'+(inv[i.k]||0)+'</span></div>').join('');
-  document.getElementById('eq-weapon').textContent=G.weapon;
-  document.getElementById('eq-armor').textContent=G.armor;
-  document.getElementById('xp-display').textContent=G.xp;
-  const sc=document.getElementById('scrap-count');if(sc)sc.textContent=inv.scrap||0;
-
-  [['eat','food'],['drink','water'],['meds','meds']].forEach(function(pair){
-    var k=pair[0],key=pair[1],n=inv[key]||0;
-    var nn=document.getElementById('as-'+k+'-n');if(nn)nn.textContent=n;
-    var btn=document.getElementById('as-'+k);if(btn)btn.disabled=n<1;
-  });
-
-  const lvl=TL[G.teoLevel]||TL[0];const next=TL[G.teoLevel+1];
-  const pct=next?Math.round((G.teoXP/next.xp)*100):100;
-  let status='Teo is happy!';
-  if(G.teoMorale<30)status='Teo is scared.';
-  else if(G.teoMorale<60)status='Teo is worried.';
-  else if(G.teoHunger<30)status='Teo is hungry!';
-  else if(G.teoThirst<30)status='Teo is thirsty!';
-  document.getElementById('teo-status-txt').textContent=status;
-  document.getElementById('teo-level-txt').textContent='Lv'+G.teoLevel+' \u00B7 '+lvl.title;
-  document.getElementById('teo-xp-fill').style.width=pct+'%';
-  document.getElementById('teo-hunger-val').textContent=Math.round(G.teoHunger);
-  document.getElementById('teo-thirst-val').textContent=Math.round(G.teoThirst);
-  const tuw=document.getElementById('teo-unlock-txt');
-  if(tuw)tuw.textContent=next?(next.unlock.split(':')[0]+' unlocks at Lv'+next.level):'All abilities unlocked!';
-  const warn=document.getElementById('teo-warning');
-  if(warn){
-    const bad=G.teoMorale<20||G.teoHunger<20||G.teoThirst<20;
-    warn.style.display=bad?'block':'none';
-    if(bad)warn.textContent=G.teoMorale<20?'Warning: Teo is in distress. Morale critically low.':G.teoHunger<20?'Warning: Teo is starving. Feed him now.':'Warning: Teo is dangerously dehydrated.';
+function renderPage(){
+  var n=curNode;
+  document.getElementById('r-title').textContent=n.title||'';
+  var hasPages=n.pages&&n.pages.length>0;
+  document.getElementById('r-prog').textContent=hasPages?'Page '+(curPage+1)+' / '+n.pages.length:'';
+  var prose=document.getElementById('r-prose');
+  if(hasPages&&n.pages[curPage]){
+    prose.innerHTML=n.pages[curPage].map(function(p){return '<p>'+p+'</p>';}).join('');
+  }else{prose.innerHTML='';}
+  var footer=document.getElementById('r-footer');footer.innerHTML='';
+  var isLast=!hasPages||(curPage>=n.pages.length-1);
+  if(!isLast){
+    var cb=document.createElement('button');cb.className='cont-btn';cb.textContent='Continue \u2192';
+    cb.onclick=function(){curPage++;renderPage();};footer.appendChild(cb);
+  }else{
+    if(n.prompt){var pd=document.createElement('div');pd.className='r-prompt';pd.innerHTML=n.prompt;footer.appendChild(pd);}
+    if(n.choices&&n.choices.length){
+      var cdiv=document.createElement('div');cdiv.style.display='flex';cdiv.style.flexDirection='column';cdiv.style.gap='.45rem';
+      n.choices.forEach(function(c){
+        var btn=document.createElement('button');btn.className='choice-btn';
+        btn.innerHTML=(c.label?'<div class="c-path">'+c.label+'</div>':'')+c.text;
+        btn.onclick=function(){
+          if(c.label)pathLog.push(c.label);
+          applyEff(c.eff||{});
+          if(c.gameStart){startSurvival();}
+          else if(c.next){navTo(c.next);}
+        };
+        cdiv.appendChild(btn);
+      });
+      footer.appendChild(cdiv);
+    }
   }
-  let ab='';
-  for(var i=1;i<=G.teoLevel;i++)ab+='<div style="color:var(--orange)">\u25B8 '+TL[i].unlock+'</div>';
-  if(!ab)ab='<div>No abilities yet. Keep Teo happy and explore.</div>';
-  document.getElementById('teo-abilities').innerHTML=ab;
+}
+
+function applyEff(e){
+  if(!e)return;
+  if(e.food!=null)G.inv.food=Math.max(0,(G.inv.food||0)+e.food);
+  if(e.water!=null)G.inv.water=Math.max(0,(G.inv.water||0)+e.water);
+  if(e.scrap!=null)G.inv.scrap=Math.max(0,(G.inv.scrap||0)+e.scrap);
+  if(e.meds!=null)G.inv.meds=Math.max(0,(G.inv.meds||0)+e.meds);
+  if(e.ammo!=null)G.inv.ammo=Math.max(0,(G.inv.ammo||0)+e.ammo);
+  if(e.health!=null)G.health=Math.min(100,Math.max(0,(G.health||100)+e.health));
+  if(e.radiation!=null)G.radiation=Math.min(100,Math.max(0,(G.radiation||0)+e.radiation));
+  if(e.teoMorale!=null)G.teoMorale=Math.min(100,Math.max(0,(G.teoMorale||100)+e.teoMorale));
+  if(e.teoXP!=null){G.teoXP=(G.teoXP||0)+e.teoXP;checkTeoUp();}
+}
+
+// ══════════════════════════════════════════
+// SURVIVAL
+// ══════════════════════════════════════════
+function startSurvival(){addLog('You step outside. Grey sky. Metallic air. Teo twitches his nose. Time to move.','story');renderG();showScreen('main');}
+
+function addLog(text,type){type=type||'';G.log.unshift({d:G.day,text:text,type:type});if(G.log.length>80)G.log.pop();renderLog();}
+function renderLog(){var el=document.getElementById('log-panel');if(!el)return;el.innerHTML=G.log.map(function(e){return '<div class="le '+e.type+'"><span class="ld">D'+e.d+'</span>'+e.text+'</div>';}).join('');}
+
+function renderG(){
+  var s=G;
+  ['health','hunger','thirst','energy'].forEach(function(k){document.getElementById('sv-'+k).textContent=Math.round(s[k]);document.getElementById('sb-'+k).style.width=Math.min(100,Math.max(0,s[k]))+'%';});
+  document.getElementById('sv-radiation').textContent=Math.round(s.radiation);document.getElementById('sb-radiation').style.width=Math.min(100,s.radiation)+'%';
+  document.getElementById('sv-teo').textContent=Math.round(s.teoMorale);document.getElementById('sb-teo').style.width=Math.min(100,Math.max(0,s.teoMorale))+'%';
+  document.getElementById('day-badge').textContent='Day '+s.day+' \u2014 '+s.phase;
+  document.getElementById('weather-badge').textContent=s.weather.name+' \u2014 '+s.weather.desc;
+  var inv=s.inv;
+  var items=[{k:'food',i:'\uD83C\uDF71',n:'Food'},{k:'water',i:'\uD83D\uDCA7',n:'Water'},{k:'scrap',i:'\uD83D\uDD27',n:'Scrap'},{k:'meds',i:'\uD83D\uDC8A',n:'Meds'},{k:'ammo',i:'\uD83D\uDD2B',n:'Ammo'}];
+  var ig=document.getElementById('inv-grid');if(ig)ig.innerHTML=items.map(function(i){return '<div class="inv-item"><span class="ii">'+i.i+'</span><span class="in">'+i.n+'</span><span class="ic">'+(inv[i.k]||0)+'</span></div>';}).join('');
+  document.getElementById('eq-weapon').textContent=s.weapon;document.getElementById('eq-armor').textContent=s.armor;
+  document.getElementById('xp-display').textContent=s.xp;
+  var sc=document.getElementById('scrap-count');if(sc)sc.textContent=inv.scrap||0;
+  [['eat','food'],['drink','water'],['meds','meds']].forEach(function(p){var n=inv[p[1]]||0;var nn=document.getElementById('as-'+p[0]+'-n');if(nn)nn.textContent=n;var btn=document.getElementById('as-'+p[0]);if(btn)btn.disabled=n<1;});
+  var lvl=TL[s.teoLevel]||TL[0];var next=TL[s.teoLevel+1];var pct=next?Math.round((s.teoXP/next.xp)*100):100;
+  var status='Teo is happy!';if(s.teoMorale<30)status='Teo is scared.';else if(s.teoMorale<60)status='Teo is worried.';else if(s.teoHunger<30)status='Teo is hungry!';else if(s.teoThirst<30)status='Teo is thirsty!';
+  document.getElementById('teo-status-txt').textContent=status;
+  document.getElementById('teo-lv-txt').textContent='Lv'+s.teoLevel+' \u00B7 '+lvl.title;
+  document.getElementById('teo-xp-fill').style.width=pct+'%';
+  document.getElementById('teo-hunger-val').textContent=Math.round(s.teoHunger);document.getElementById('teo-thirst-val').textContent=Math.round(s.teoThirst);
+  var tu=document.getElementById('teo-unlock-txt');if(tu)tu.textContent=next?(next.unlock.split(':')[0]+' unlocks at Lv'+next.level):'All abilities unlocked!';
+  var warn=document.getElementById('teo-warning');if(warn){var bad=s.teoMorale<20||s.teoHunger<20||s.teoThirst<20;warn.style.display=bad?'block':'none';if(bad)warn.textContent=s.teoMorale<20?'Warning: Teo is in distress.':s.teoHunger<20?'Warning: Teo is starving. Feed him now.':'Warning: Teo is dangerously dehydrated.';}
+  var ab='';for(var i=1;i<=s.teoLevel;i++)ab+='<div style="color:var(--orange)">\u25B8 '+TL[i].unlock+'</div>';if(!ab)ab='No abilities yet. Keep Teo happy and explore.';document.getElementById('teo-abilities').innerHTML=ab;
+  var pl=document.getElementById('path-log');if(pl)pl.innerHTML=pathLog.length?pathLog.map(function(p){return '\u25B8 '+p;}).join('<br>'):'No choices recorded yet.';
   renderLog();
 }
 
@@ -406,67 +639,48 @@ function doExplore(){
   if(w.ed)G.energy=Math.max(0,G.energy-w.ed);
   G.teoHunger=Math.max(0,G.teoHunger-6);G.teoThirst=Math.max(0,G.teoThirst-6);G.teoMorale=Math.max(0,G.teoMorale-2);
   var pool=EV.filter(function(e){return !e.to||(e.to&&G.teoLevel>=1);});
-  if(G.teoLevel>=2)pool=pool.concat(EV.filter(function(e){return e.tx;}));
+  if(G.teoLevel>=2)pool=pool.concat(EV.filter(function(e){return !!e.tx;}));
   var ev=pool[Math.floor(Math.random()*pool.length)];
-  if(ev.sc){if((G.inv.scrap||0)<ev.sc){addLog('Not enough scrap to trade.');advancePhase();check();render();saveGame();return;}G.inv.scrap-=ev.sc;}
+  if(ev.sc){if((G.inv.scrap||0)<ev.sc){addLog('Not enough scrap to trade.');advPhase();checkDeath();renderG();return;}G.inv.scrap-=ev.sc;}
   Object.keys(ev.l||{}).forEach(function(k){G.inv[k]=(G.inv[k]||0)+ev.l[k];});
   if(ev.h)G.health=Math.max(0,Math.min(100,G.health+ev.h));
   if(ev.r)G.radiation=Math.min(100,G.radiation+ev.r);
   if(ev.tx){G.teoXP+=ev.tx;checkTeoUp();}
   G.xp+=(ev.x||5);
-  var msg=ev.t;
-  var lp=Object.keys(ev.l||{}).filter(function(k){return ev.l[k]>0;}).map(function(k){return '+'+ev.l[k]+' '+k;});
+  var msg=ev.t;var lp=Object.keys(ev.l||{}).filter(function(k){return ev.l[k]>0;}).map(function(k){return '+'+ev.l[k]+' '+k;});
   if(lp.length)msg+=' ('+lp.join(', ')+')';
   addLog(msg,ev.tx?'teo':'story');
-  advancePhase();check();render();saveGame();
+  advPhase();checkDeath();renderG();
 }
 
-function doWait(){
-  if(G.dead)return;
-  G.energy=Math.min(100,G.energy+25);G.hunger=Math.max(0,G.hunger-4);G.thirst=Math.max(0,G.thirst-5);
-  G.teoMorale=Math.max(0,G.teoMorale-1);if(G.radiation>0)G.radiation=Math.max(0,G.radiation-2);
-  addLog('You rest. Energy recovers. Teo naps in his pouch.');
-  advancePhase();check();render();saveGame();
-}
+function doWait(){if(G.dead)return;G.energy=Math.min(100,G.energy+25);G.hunger=Math.max(0,G.hunger-4);G.thirst=Math.max(0,G.thirst-5);G.teoMorale=Math.max(0,G.teoMorale-1);if(G.radiation>0)G.radiation=Math.max(0,G.radiation-2);addLog('You rest. Energy recovers. Teo naps in his pouch.');advPhase();checkDeath();renderG();}
 
-function craftItem(type){
-  if(G.dead)return;var sc=G.inv.scrap||0;
+function craftItem(type){if(G.dead)return;var sc=G.inv.scrap||0;
   if(type==='medkit'&&sc>=3){G.inv.scrap-=3;G.inv.meds=(G.inv.meds||0)+1;addLog('Crafted a medkit. (+1 Meds)');}
   else if(type==='trap'&&sc>=2){G.inv.scrap-=2;G.inv.food=(G.inv.food||0)+1;addLog('Built a food trap. (+1 Food)');}
   else if(type==='filter'&&sc>=3){G.inv.scrap-=3;G.inv.water=(G.inv.water||0)+2;addLog('Built a water filter. (+2 Water)');}
   else if(type==='weapon'&&sc>=5){G.inv.scrap-=5;G.weapon='Reinforced Club';addLog('Crafted a Reinforced Club.');}
   else addLog('Not enough scrap for that.');
-  G.energy=Math.max(0,G.energy-5);render();saveGame();
-}
+  G.energy=Math.max(0,G.energy-5);renderG();}
 
-function spendXP(type){
-  if(G.dead)return;
-  if(type==='health'&&G.xp>=20){G.xp-=20;G.health=Math.min(100,G.health+10);addLog('Trained body. (+10 Health, -20 XP)');}
-  else if(type==='energy'&&G.xp>=10){G.xp-=10;G.energy=Math.min(100,G.energy+15);addLog('Endurance training. (+15 Energy, -10 XP)');}
-  else if(type==='radiation'&&G.xp>=15){G.xp-=15;G.radiation=Math.max(0,G.radiation-20);addLog('Rad flush. (-20 Radiation, -15 XP)');}
-  else if(type==='teo'&&G.xp>=10){G.xp-=10;G.teoMorale=Math.min(100,G.teoMorale+20);addLog('Bonding session with Teo. (+20 Teo Morale, -10 XP)','teo');}
-  else addLog('Not enough XP for that.');
-  render();saveGame();
-}
+function spendXP(type){if(G.dead)return;
+  if(type==='health'&&G.xp>=20){G.xp-=20;G.health=Math.min(100,G.health+10);addLog('Trained body. (+10 Health)');}
+  else if(type==='energy'&&G.xp>=10){G.xp-=10;G.energy=Math.min(100,G.energy+15);addLog('Endurance. (+15 Energy)');}
+  else if(type==='radiation'&&G.xp>=15){G.xp-=15;G.radiation=Math.max(0,G.radiation-20);addLog('Rad flush. (-20 Radiation)');}
+  else if(type==='teo'&&G.xp>=10){G.xp-=10;G.teoMorale=Math.min(100,G.teoMorale+20);addLog('Bonding with Teo. (+20 Teo Morale)','teo');}
+  else addLog('Not enough XP for that.');renderG();}
 
-function useItem(type){
-  if(G.dead)return;
+function useItem(type){if(G.dead)return;
   if(type==='food'&&(G.inv.food||0)>0){G.inv.food--;G.hunger=Math.min(100,G.hunger+25);addLog('You eat. Hunger eases.');}
   else if(type==='water'&&(G.inv.water||0)>0){G.inv.water--;G.thirst=Math.min(100,G.thirst+25);addLog('You drink. Thirst fades.');}
-  else if(type==='meds'&&(G.inv.meds||0)>0){G.inv.meds--;G.health=Math.min(100,G.health+20);G.radiation=Math.max(0,G.radiation-10);addLog('You take medicine. Health improves.');}
-  render();saveGame();
-}
+  else if(type==='meds'&&(G.inv.meds||0)>0){G.inv.meds--;G.health=Math.min(100,G.health+20);G.radiation=Math.max(0,G.radiation-10);addLog('Medicine taken.');}
+  renderG();}
 
-function feedTeo(){
-  if(G.dead)return;
-  if((G.inv.food||0)>0){G.inv.food--;G.teoHunger=Math.min(100,G.teoHunger+35);G.teoMorale=Math.min(100,G.teoMorale+10);G.teoXP+=5;addLog('You feed Teo. He accepts with great dignity.','teo');}
-  else addLog('No food to give Teo. Find more soon.','danger');
-  render();saveGame();
-}
-function petTeo(){if(G.dead)return;G.teoMorale=Math.min(100,G.teoMorale+8);G.teoXP+=3;addLog('You pet Teo. He vibrates slightly \u2014 hamster for bliss.','teo');render();saveGame();}
-function playTeo(){if(G.dead)return;if(G.energy>=5){G.energy=Math.max(0,G.energy-5);G.teoMorale=Math.min(100,G.teoMorale+12);G.teoXP+=5;addLog('You play with Teo. He runs figure-eights on your arm.','teo');}else addLog('Too tired. Rest first.');render();saveGame();}
+function feedTeo(){if(G.dead)return;if((G.inv.food||0)>0){G.inv.food--;G.teoHunger=Math.min(100,G.teoHunger+35);G.teoMorale=Math.min(100,G.teoMorale+10);G.teoXP+=5;addLog('You feed Teo. He accepts with great dignity.','teo');}else addLog('No food to give Teo.','danger');renderG();}
+function petTeo(){if(G.dead)return;G.teoMorale=Math.min(100,G.teoMorale+8);G.teoXP+=3;addLog('You pet Teo. He vibrates slightly \u2014 hamster for bliss.','teo');renderG();}
+function playTeo(){if(G.dead)return;if(G.energy>=5){G.energy=Math.max(0,G.energy-5);G.teoMorale=Math.min(100,G.teoMorale+12);G.teoXP+=5;addLog('You play with Teo. He runs figure-eights on your arm.','teo');}else addLog('Too tired. Rest first.');renderG();}
 
-function advancePhase(){
+function advPhase(){
   var phases=['Dawn','Morning','Afternoon','Dusk','Night'];var idx=phases.indexOf(G.phase);
   if(idx>=phases.length-1||G.acts>=3){
     G.day++;G.phase='Dawn';G.acts=0;G.weather=WEATHERS[Math.floor(Math.random()*WEATHERS.length)];
@@ -474,96 +688,91 @@ function advancePhase(){
     G.teoHunger=Math.max(0,G.teoHunger-8);G.teoThirst=Math.max(0,G.teoThirst-10);
     if(G.teoHunger<20||G.teoThirst<20)G.teoMorale=Math.max(0,G.teoMorale-15);
     addLog('Day '+G.day+'. '+G.weather.name+'. '+G.weather.desc);
-    checkStory();
-  }else{G.phase=phases[idx+1];}
+    checkBeat();
+  }else G.phase=phases[idx+1];
 }
 
-function checkTeoUp(){
-  var next=TL[G.teoLevel+1];
-  if(next&&G.teoXP>=next.xp){G.teoLevel++;addLog('Teo leveled up \u2014 '+TL[G.teoLevel].title+'! '+TL[G.teoLevel].unlock,'teo');}
-}
+function checkTeoUp(){var next=TL[G.teoLevel+1];if(next&&G.teoXP>=next.xp){G.teoLevel++;addLog('Teo leveled up \u2014 '+TL[G.teoLevel].title+'! '+TL[G.teoLevel].unlock,'teo');}}
 
-function checkStory(){
-  for(var i=0;i<SB.length;i++){
-    var b=SB[i];
-    if(G.shown.indexOf(b.id)===-1&&G.day>=b.day){G.shown.push(b.id);showBeat(b);return;}
+function checkBeat(){
+  for(var i=0;i<BEATS.length;i++){var b=BEATS[i];if(G.beatsShown.indexOf(b.id)===-1&&G.day>=b.day){G.beatsShown.push(b.id);showBeat(b);return;}}
+  if(G.day>=22&&G.beatsShown.indexOf('final')===-1){
+    G.beatsShown.push('final');
+    showBeat({id:'final',title:'The Transatlantic Signal',
+      prose:["Six months. The alliance holds. Geiger readings declining. Small plants pushing through the ash.","A transatlantic signal. Survivors in Scotland, asking if anyone is left. The room goes quiet. Everyone looks at you. Teo blinks once — hamster for: go ahead."],
+      ch:[
+        {t:'"We are here. Fewer than before — but still becoming."',l:'Still Becoming',e:{health:20,food:3,teoMorale:15},fin:true},
+        {t:'"We have fire, food, and people who remember how to be kind."',l:'Still Kind',e:{meds:3,water:3,teoMorale:10},fin:true},
+        {t:'Read them a poem. Something true.',l:'The Poem',e:{teoMorale:30,teoXP:30,health:10},fin:true},
+      ]});
   }
 }
 
 function showBeat(b){
-  document.getElementById('modal-title').textContent=b.title;
-  document.getElementById('modal-prose').innerHTML=b.prose.map(function(p){return '<p>'+p+'</p>';}).join('');
-  var cc=document.getElementById('modal-choices');cc.innerHTML='';
+  var modal=document.getElementById('story-modal');
+  document.getElementById('smodal-title').textContent=b.title;
+  document.getElementById('smodal-prose').innerHTML=b.prose.map(function(p){return '<p>'+p+'</p>';}).join('');
+  var cc=document.getElementById('smodal-choices');cc.innerHTML='';
   b.ch.forEach(function(c){
-    var btn=document.createElement('button');btn.className='choice-btn';
-    btn.innerHTML='<div class="choice-label">'+c.l+'</div>'+c.t;
-    btn.onclick=function(){applyEff(c.e||{});document.getElementById('modal').classList.add('hidden');addLog(b.log,b.lt||'story');if(b.fin)ending();render();saveGame();};
+    var btn=document.createElement('button');btn.className='mc-btn';
+    btn.innerHTML='<div class="mc-label">'+c.l+'</div>'+c.t;
+    btn.onclick=function(){
+      applyEff(c.e||{});modal.classList.add('hidden');
+      if(c.fin)showEnd(S['end_stay']);
+      else renderG();
+    };
     cc.appendChild(btn);
   });
-  document.getElementById('modal').classList.remove('hidden');
+  modal.classList.remove('hidden');
 }
 
-function applyEff(e){
-  if(e.food)G.inv.food=(G.inv.food||0)+e.food;
-  if(e.water)G.inv.water=(G.inv.water||0)+e.water;
-  if(e.scrap)G.inv.scrap=(G.inv.scrap||0)+e.scrap;
-  if(e.meds)G.inv.meds=(G.inv.meds||0)+e.meds;
-  if(e.ammo)G.inv.ammo=(G.inv.ammo||0)+e.ammo;
-  if(e.health)G.health=Math.min(100,Math.max(0,G.health+e.health));
-  if(e.tm)G.teoMorale=Math.min(100,Math.max(0,G.teoMorale+e.tm));
-  if(e.tx){G.teoXP+=e.tx;checkTeoUp();}
-}
-
-function check(){
+function checkDeath(){
   if(G.dead)return;
   var fails=[
-    [G.health<=0,'YOUR STORY ENDS HERE',"Pack's strength gave out. The pack sits where it fell. Teo waits beside it \u2014 patient, loyal."],
-    [G.hunger<=0,'YOUR STORY ENDS HERE','Days without food took their toll. Teo stayed until the very end.'],
-    [G.thirst<=0,'YOUR STORY ENDS HERE',"Without water, the body surrenders quickly. Pack made sure Teo had enough."],
-    [G.teoHunger<=0,'YOU FAILED TEO',"Teo starved. You had one job above all else. The pouch on your pack is empty now. You keep walking. But there's no reason anymore."],
-    [G.teoThirst<=0,'YOU FAILED TEO','Teo dehydrated in the ash heat. Some losses you carry forever.'],
-    [G.teoMorale<=0,'YOU FAILED TEO',"Teo's spirit broke before his body did. A hamster needs more than survival \u2014 he needs to know someone is still there. He slipped away quietly in the night."],
+    [G.health<=0,'YOUR STORY ENDS HERE',"Pack's strength gave out. The pack sits where it fell. Teo waits beside it \u2014 patient, loyal.",''],
+    [G.hunger<=0,'YOUR STORY ENDS HERE','Days without food took their toll. Teo stayed until the very end.',''],
+    [G.thirst<=0,'YOUR STORY ENDS HERE',"Without water, the body surrenders quickly. Pack made sure Teo had enough.",''],
+    [G.teoHunger<=0,'YOU FAILED TEO',"Teo starved. You had one job above all others. The pouch on your pack is empty now. You keep walking. But there's no reason anymore.",'orange'],
+    [G.teoThirst<=0,'YOU FAILED TEO','Teo dehydrated in the ash heat. Some losses you carry forever.','orange'],
+    [G.teoMorale<=0,'YOU FAILED TEO',"Teo's spirit broke before his body did. He slipped away quietly in the night.",'orange'],
   ];
-  for(var i=0;i<fails.length;i++){if(fails[i][0]){die(fails[i][1],fails[i][2]);return;}}
+  for(var i=0;i<fails.length;i++){if(fails[i][0]){dieSurvival(fails[i][1],fails[i][2],fails[i][3]);return;}}
 }
 
-function die(sub,msg){
-  G.dead=true;saveGame();
-  document.getElementById('go-title').textContent='GAME OVER';
-  document.getElementById('go-title').style.color='var(--red)';
-  document.getElementById('go-sub').textContent=sub;
-  document.getElementById('go-sub').style.color='var(--dim)';
-  document.getElementById('go-msg').textContent=msg;
-  showScreen('gameover');
+function dieSurvival(sub,msg,col){
+  G.dead=true;
+  var et=document.getElementById('end-title');et.textContent='GAME OVER';et.style.color=col?'var(--'+col+')':'var(--red)';
+  document.getElementById('end-sub').textContent=sub;document.getElementById('end-sub').style.color='var(--dim)';
+  document.getElementById('end-msg').textContent=msg;
+  document.getElementById('end-haiku').style.display='none';document.getElementById('end-teaser').style.display='none';
+  showScreen('endscreen');
 }
 
-function ending(){
-  setTimeout(function(){
-    G.dead=true;saveGame();
-    document.getElementById('go-title').textContent='THE SUN IS TRYING';
-    document.getElementById('go-title').style.color='var(--gold)';
-    document.getElementById('go-sub').textContent='CHAPTER ONE COMPLETE';
-    document.getElementById('go-sub').style.color='var(--green)';
-    document.getElementById('go-msg').textContent='Day '+G.day+". A signal from Scotland crackled through John's radio. You answered. You told them the truth. Somewhere across the Atlantic, people heard Pack's voice \u2014 and Teo's quiet rustling \u2014 and knew they weren't alone. Neither were you.";
-    showScreen('gameover');
-  },400);
-}
-
-// Intro dots
-(function(){
-  var d=document.getElementById('dots');if(!d)return;
-  for(var i=0;i<28;i++){
-    var dot=document.createElement('div');dot.className='dot';
-    dot.style.left=Math.random()*100+'%';dot.style.top=Math.random()*100+'%';
-    dot.style.opacity=(Math.random()*.35+.1).toFixed(2);d.appendChild(dot);
+function showEnd(node){
+  var et=document.getElementById('end-title');var es=document.getElementById('end-sub');
+  var em=document.getElementById('end-msg');var eh=document.getElementById('end-haiku');var etr=document.getElementById('end-teaser');
+  if(node.win){
+    et.textContent=node.title||'THE SUN IS TRYING';et.style.color='var(--gold)';
+    es.textContent='CHAPTER ONE COMPLETE';es.style.color='var(--green)';
+    eh.style.display='block';
+    eh.innerHTML='In every ending<br>Teo\'s onion-ring tail curls<br>like a small, warm question mark.<br>Which means:<br>what happens next<br>is up to you.';
+  }else{
+    et.textContent='GAME OVER';et.style.color='var(--red)';
+    es.textContent=node.title||'THE WASTELAND CLAIMS ANOTHER';es.style.color='var(--dim)';
+    eh.style.display='none';
   }
-})();
+  em.textContent=node.msg||'';
+  if(node.teaser){
+    etr.style.display='block';
+    etr.textContent='COMING IN CHAPTER TWO\n\nThree weeks after the transatlantic signal, John intercepts a burst transmission from a shelter approximately 40 miles east. He runs the frequency. Runs it again. Looks at Pack. His face has gone completely still.\n\n\"Pack.\" He turns the receiver. On the display:\n\nS. Harlan. Shelter 7. Still here. Is anyone listening?\n\nSimon is alive.';
+  }else{etr.style.display='none';}
+  showScreen('endscreen');
+}
 
-// Auto-load saved game on startup
-window.addEventListener('load',function(){
-  if(!loadGame()){} // stays on intro if no save
-});
+function restartGame(){pathLog=[];G=defaultG();showScreen('title');}
+
+// Dots
+(function(){var d=document.getElementById('dots');if(!d)return;for(var i=0;i<32;i++){var dot=document.createElement('div');dot.className='dot';dot.style.left=Math.random()*100+'%';dot.style.top=Math.random()*100+'%';dot.style.opacity=(Math.random()*.3+.08).toFixed(2);d.appendChild(dot);}})();
 </script>
 </body>
 </html>
-
