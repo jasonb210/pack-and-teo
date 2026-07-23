@@ -109,6 +109,33 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .end-msg{max-width:460px;font-family:'Lora',serif;font-size:1rem;line-height:1.9;color:var(--text);margin:0 auto 1.5rem;white-space:pre-line}
 .end-haiku{max-width:300px;font-family:'Lora',serif;font-style:italic;font-size:1rem;line-height:2.1;color:var(--dim);margin:0 auto 1.5rem;border-left:2px solid var(--border);padding-left:1rem;text-align:left}
 .end-teaser{max-width:440px;font-family:'Share Tech Mono',monospace;font-size:.78rem;line-height:1.8;color:var(--gold);margin:0 auto 1.5rem;background:rgba(232,184,75,.05);border:1px solid rgba(232,184,75,.15);border-radius:6px;padding:1rem;white-space:pre-line}
+/* CHARACTER SELECT */
+#charselect{background:var(--bg);align-items:center;justify-content:center;padding:2.5rem 1.25rem;text-align:center;position:relative;overflow:hidden}
+#charselect::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 20%,rgba(232,184,75,.06) 0%,transparent 65%);pointer-events:none}
+.cs-eyebrow{font-size:.68rem;letter-spacing:.35em;color:var(--dim);text-transform:uppercase;margin-bottom:1.5rem}
+.cs-question{font-family:'Lora',serif;font-size:1.25rem;color:var(--textb);line-height:1.6;margin-bottom:.3rem}
+.cs-sub{font-family:'Lora',serif;font-style:italic;font-size:.88rem;color:var(--dim);margin-bottom:2rem}
+.cs-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:440px;width:100%;margin:0 auto 1.75rem}
+.cs-card{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:1.25rem 1rem;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.55rem;position:relative;overflow:hidden}
+.cs-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .2s}
+.cs-card.fighter::before{background:radial-gradient(ellipse at 50% 0%,rgba(224,85,85,.12),transparent 70%)}
+.cs-card.thinker::before{background:radial-gradient(ellipse at 50% 0%,rgba(91,155,213,.12),transparent 70%)}
+.cs-card:hover{transform:translateY(-3px)}
+.cs-card.fighter:hover{border-color:var(--red);box-shadow:0 8px 24px rgba(224,85,85,.2)}
+.cs-card.thinker:hover{border-color:var(--blue);box-shadow:0 8px 24px rgba(91,155,213,.2)}
+.cs-icon{font-size:2.8rem;line-height:1}
+.cs-role{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:.1rem}
+.cs-card.fighter .cs-role{color:var(--red)}
+.cs-card.thinker .cs-role{color:var(--blue)}
+.cs-name{font-family:'Share Tech Mono',monospace;font-size:.95rem;color:var(--textb)}
+.cs-desc{font-family:'Lora',serif;font-style:italic;font-size:.78rem;color:var(--dim);line-height:1.55}
+.cs-bonus{font-size:.68rem;font-weight:700;padding:.15rem .45rem;border-radius:4px;margin-top:.15rem}
+.cs-card.fighter .cs-bonus{background:rgba(224,85,85,.12);color:var(--red);border:1px solid rgba(224,85,85,.25)}
+.cs-card.thinker .cs-bonus{background:rgba(91,155,213,.12);color:var(--blue);border:1px solid rgba(91,155,213,.25)}
+.cs-teo{background:var(--card2);border:1px solid var(--border);border-radius:10px;max-width:440px;width:100%;margin:0 auto;padding:.9rem 1.1rem;display:flex;align-items:center;gap:.9rem;text-align:left}
+.cs-teo-icon{font-size:2rem;flex-shrink:0}
+.cs-teo-name{font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--orange);margin-bottom:.18rem}
+.cs-teo-desc{font-family:'Lora',serif;font-style:italic;font-size:.78rem;color:var(--dim);line-height:1.5}
 /* SHARED */
 .btn{background:rgba(232,184,75,.14);border:1px solid rgba(232,184,75,.38);border-radius:6px;padding:.6rem 1.6rem;font-size:.9rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);cursor:pointer;font-family:'Inter',sans-serif;transition:all .13s}
 .btn:hover{background:rgba(232,184,75,.24);border-color:var(--gold)}
@@ -131,15 +158,45 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 <!-- TITLE -->
 <div id="title" class="screen active">
   <div class="dots" id="dots"></div>
-  <div style="font-size:.72rem;letter-spacing:.3em;color:var(--dim);text-transform:uppercase;font-family:'Inter',sans-serif;margin-bottom:.5rem">A Post-Apocalyptic Interactive Story</div>
+  <div style="font-size:.68rem;letter-spacing:.35em;color:var(--dim);text-transform:uppercase;font-family:'Inter',sans-serif;margin-bottom:.6rem">A Post-Apocalyptic Survival Game</div>
   <div class="title-main">PACK <span class="title-amp">&amp;</span> TEO</div>
   <div class="title-sub">Under the Broken Sun</div>
   <div class="title-chapter">Chapter One</div>
-  <div style="font-family:'Lora',serif;font-style:italic;font-size:.88rem;color:var(--dim);margin-bottom:.75rem">For Harlan &mdash; and the friends who survive with you</div>
-  <div style="max-width:400px;font-family:'Lora',serif;font-style:italic;font-size:.88rem;color:var(--dim);line-height:1.8;margin-bottom:2rem;opacity:.8">You are Pack. These are your people. Every choice lives in the space between who you were before the war and who the broken world needs you to become. Teo is always in your pocket. Choose carefully.</div>
+  <div style="font-family:'Lora',serif;font-style:italic;font-size:.9rem;color:var(--dim);margin-bottom:.5rem">For Harlan &mdash; and the friends who survive with you</div>
+  <div style="max-width:360px;font-family:'Share Tech Mono',monospace;font-size:.78rem;color:var(--dim);line-height:1.8;margin-bottom:2.25rem;opacity:.7">Nuclear fallout. Day 1.<br>You and Teo made it out.<br>Now survive.</div>
   <div style="display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center">
-    <button class="btn" onclick="beginStory()">Begin</button>
+    <button class="btn" onclick="showScreen('charselect')">Play</button>
     <button class="btn-ghost" onclick="showCast()">Meet the Survivors</button>
+  </div>
+</div>
+
+<!-- CHARACTER SELECT -->
+<div id="charselect" class="screen">
+  <div class="cs-eyebrow">Who are you out there?</div>
+  <div class="cs-question">When things go wrong,<br>what does Pack do?</div>
+  <div class="cs-sub">This shapes your starting stats and fight odds.</div>
+  <div class="cs-cards">
+    <div class="cs-card fighter" onclick="beginGame('fighter')">
+      <div class="cs-icon">🗡️</div>
+      <div class="cs-role">Fighter</div>
+      <div class="cs-name">I Fight</div>
+      <div class="cs-desc">Head-on. Every time. You were always the one who didn't run.</div>
+      <div class="cs-bonus">+Better combat odds<br>+Extra ammo &amp; scrap</div>
+    </div>
+    <div class="cs-card thinker" onclick="beginGame('thinker')">
+      <div class="cs-icon">📖</div>
+      <div class="cs-role">Thinker</div>
+      <div class="cs-name">I Think</div>
+      <div class="cs-desc">Find another way. You were always the one who saw what others missed.</div>
+      <div class="cs-bonus">+Teo bond starts higher<br>+Extra meds &amp; food</div>
+    </div>
+  </div>
+  <div class="cs-teo">
+    <div class="cs-teo-icon">🐹</div>
+    <div>
+      <div class="cs-teo-name">TEO · Always with you</div>
+      <div class="cs-teo-desc">Onion-ring tail. Unreasonable loyalty. Rides in your front pocket. Keep him alive — he's the whole point.</div>
+    </div>
   </div>
 </div>
 
@@ -928,6 +985,22 @@ function hideCast(){document.getElementById('cast-modal').classList.add('hidden'
 // ══════════════════════════════════════════
 function beginStory(){pathLog=[];G=defaultG();R={john:0,garrett:0,okafor:0,elias:0};navTo('prologue');showScreen('reader');}
 
+function beginGame(role){
+  pathLog=[];R={john:0,garrett:0,okafor:0,elias:0};
+  G=defaultG();
+  G.role=role;
+  if(role==='fighter'){
+    G.health=110;G.inv.ammo=3;G.inv.scrap=4;
+    addLog('Pack. Fighter. You came out swinging. Teo approves.','important');
+  } else {
+    G.teoMorale=100;G.teoHunger=90;G.teoThirst=90;G.inv.meds=3;G.inv.food=5;
+    addLog('Pack. Thinker. You came out careful. Teo is already three steps ahead of you.','important');
+  }
+  addLog('Day 1. The shelter door opens. Ash in the air. Teo sniffs once and looks at you.','story');
+  addLog('Explore to survive. Keep Teo alive. Watch your stats.','important');
+  renderG();showScreen('main');
+}
+
 function navTo(nid,pendEff){
   var node=S[nid];if(!node){console.warn('Missing:',nid);return;}
   curNode=node;curPage=0;
@@ -1261,6 +1334,8 @@ function doExplore(){
   var lp=Object.keys(ev.loot||{}).filter(function(k){return (ev.loot[k]||0)>0;}).map(function(k){return '+'+ev.loot[k]+' '+k;});
   var msg=ev.text+(lp.length?' ('+lp.join(', ')+')':'');
   addLog(msg,ev.teoXP?'teo':ev.msg==='bad'?'danger':'story');
+  // Occasionally drip a story moment into the log
+  maybeStoryDrip();
   advPhase();checkDeath();renderG();
 }
 
@@ -1359,6 +1434,34 @@ function waterTeo(){if(G.dead)return;if((G.inv.water||0)>0){G.inv.water--;G.teoT
 function petTeo(){if(G.dead)return;G.teoMorale=Math.min(100,G.teoMorale+8);G.teoXP+=3;addLog('You pet Teo. He vibrates slightly \u2014 hamster for bliss.','teo');renderG();}
 function playTeo(){if(G.dead)return;if(G.energy>=5){G.energy=Math.max(0,G.energy-5);G.teoMorale=Math.min(100,G.teoMorale+12);G.teoXP+=5;addLog('You play with Teo. He runs figure-eights on your arm.','teo');}else addLog('Too tired. Rest first.');renderG();}
 
+// ══════════════════════════════════════════
+// STORY DRIP — one-liners that surface during explore
+// ══════════════════════════════════════════
+var DRIPS=[
+  {id:'d1',day:1,line:"You pass the soccer field where you used to practice. The goalposts are still standing.",'type':'story'},
+  {id:'d2',day:2,line:"Teo sniffs the air east. Somewhere out there, John might still be alive.",'type':'teo'},
+  {id:'d3',day:3,line:"You find a poem in your pocket. You don't remember writing it.",'type':'story'},
+  {id:'d4',day:4,line:"A dog barks somewhere in the distance. First sound like that in days.",'type':'story'},
+  {id:'d5',day:5,line:"The sky turns a color that has no name. Teo watches it without blinking.",'type':'teo'},
+  {id:'d6',day:6,line:"You find a soccer jersey in the rubble. Not yours. You leave it.",'type':'story'},
+  {id:'d7',day:8,line:"Cooper used to say: the fastest route isn't always forward. You think about that.",'type':'story'},
+  {id:'d8',day:9,line:"Teo chirps once, quietly. You're not sure if it's a warning or encouragement.",'type':'teo'},
+  {id:'d9',day:11,line:"You write three words on a wall: WE WERE HERE. Then you keep moving.",'type':'story'},
+  {id:'d10',day:13,line:"Somewhere east, a radio signal — gone before you can lock it. John's frequency.",'type':'important'},
+  {id:'d11',day:15,line:"Teo sits very still on your shoulder and stares at the horizon for a long time.",'type':'teo'},
+  {id:'d12',day:17,line:"You dream about Simon. He's fine in the dream. You wake up and keep moving.",'type':'story'},
+  {id:'d13',day:19,line:"The ash is thinner today. Just slightly. But you notice.",'type':'story'},
+];
+var dripsShown=[];
+function maybeStoryDrip(){
+  if(Math.random()>0.35)return; // 35% chance per explore
+  var available=DRIPS.filter(function(d){return dripsShown.indexOf(d.id)===-1&&G.day>=d.day;});
+  if(!available.length)return;
+  var d=available[Math.floor(Math.random()*available.length)];
+  dripsShown.push(d.id);
+  addLog(d.line,d.type||'story');
+}
+
 function advPhase(){
   var phases=['Dawn','Morning','Afternoon','Dusk','Night'];var idx=phases.indexOf(G.phase);
   if(idx>=phases.length-1||G.acts>=3){
@@ -1454,7 +1557,7 @@ function showEnd(node){
   showScreen('endscreen');
 }
 
-function restartGame(){pathLog=[];G=defaultG();R={john:0,garrett:0,okafor:0,elias:0};showScreen('title');}
+function restartGame(){pathLog=[];dripsShown=[];G=defaultG();R={john:0,garrett:0,okafor:0,elias:0};showScreen('title');}
 
 // Dots
 (function(){var d=document.getElementById('dots');if(!d)return;for(var i=0;i<32;i++){var dot=document.createElement('div');dot.className='dot';dot.style.left=Math.random()*100+'%';dot.style.top=Math.random()*100+'%';dot.style.opacity=(Math.random()*.3+.08).toFixed(2);d.appendChild(dot);}})();
