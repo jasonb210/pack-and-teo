@@ -739,39 +739,152 @@ var WEATHERS=[
   {name:'Fallout Drizzle',desc:'Radiation in rain.',rad:8,hm:1,tm:1.1},
   {name:'Cold Snap',desc:'Energy drains faster.',rad:0,hm:1.3,tm:1,ed:5},
 ];
-var EV=[
-  {t:'You find an abandoned convenience store. Canned goods still on the shelf.',l:{food:2,water:1},x:5},
-  {t:'A rusted car — stripped already. You salvage the little that remains.',l:{scrap:2},x:4},
-  {t:'A collapsed pharmacy. Bandages and antibiotics under the rubble.',l:{meds:2},x:5},
-  {t:'Teo sniffs out a hidden cache under a floorboard. A full canteen.',l:{water:2,food:1},x:10,tx:15,to:true},
-  {t:'You spot scavengers and take cover. They pass without noticing you.',l:{},x:3,h:-5},
-  {t:'A scavenger ambushes you. You fight him off — barely.',l:{food:1,ammo:1},x:8,h:-15},
-  {t:'A working rain collector. Clean water pooling inside.',l:{water:2},x:5},
-  {t:'An abandoned campsite, left in a hurry. Food and scrap remain.',l:{food:1,scrap:1},x:5},
-  {t:'Teo chirps urgently. You freeze. A mutant creature passes 10 feet away, unaware.',l:{},x:4,tx:10},
-  {t:'A gas station — surprisingly untouched. Road snacks and scrap.',l:{food:2,scrap:1},x:5},
-  {t:'Radiation spikes. You retreat quickly before accumulating too much.',l:{},x:2,r:12},
-  {t:'A first aid kit still on a fire station wall.',l:{meds:2,scrap:1},x:6},
-  {t:"A child's backpack. Trail mix and a family photo. You take the food. Leave the photo.",l:{food:1},x:3},
-  {t:'An overturned delivery truck. Canned soup in the cargo hold.',l:{food:3},x:6},
-  {t:'A sporting goods store — mostly looted, but ammo and a knife remain.',l:{ammo:3,scrap:1},x:7},
-  {t:'A rooftop garden someone started. Stunted but real vegetables.',l:{food:2},x:6,tx:5},
-  {t:'A school gymnasium. Sleeping bags, dried goods, portable stove.',l:{food:1,meds:1,scrap:2},x:7},
-  {t:'A stream — murky but filterable. You fill your canteens carefully.',l:{water:3},x:5},
-  {t:'Two scavengers fighting over supplies. You circle wide, unseen.',l:{},x:4},
-  {t:'An old hardware store. Metal piping and wire remain.',l:{scrap:3},x:5},
-  {t:'Teo runs in circles — his warning. You find a trip wire and step over it.',l:{},x:8,tx:20},
-  {t:'A library, intact. Nothing useful — but you read a page before leaving.',l:{},x:3,tx:3},
-  {t:'Smoke on the horizon — just a burning car. Scrap worth salvaging.',l:{scrap:2},x:4},
-  {t:'A hospital supply closet someone missed.',l:{meds:3},x:8},
-  {t:"A journal from someone who didn't make it. Their route leads to a cache.",l:{food:2,water:1,scrap:1},x:7},
-  {t:'Mutant rats scatter as you enter. Canned food hidden in the walls.',l:{food:2},x:5,h:-5},
-  {t:'A bunker door — unlocked. Inside: enough food for days.',l:{food:3,water:2,meds:1},x:10},
-  {t:'You trade scrap with a lone survivor. Both walk away better off.',l:{food:1,meds:1},x:6,sc:2},
-  {t:'A grocery warehouse. Mostly spoiled, but canned goods in the back.',l:{food:3,water:1},x:7,r:5},
-  {t:'An undisturbed church. Emergency rations in the basement.',l:{food:2,water:1},x:5},
-  {t:'Teo digs near rubble — a waterproof box with medicine inside.',l:{meds:2},x:6,tx:15,to:true},
-  {t:"A survivors' message board. Resource locations marked. You note two.",l:{food:1,water:1},x:5},
+// ══════════════════════════════════════════
+// ENCOUNTER SYSTEM
+// type: 'auto' = no choice, 'choice' = player decides
+// creature encounters have fight/flee options
+// ══════════════════════════════════════════
+var ENCOUNTERS=[
+  // ── ZOMBIE HYENA ENCOUNTERS ──
+  {type:'choice',
+   text:'A zombie hyena blocks the alley ahead — patchy fur, milky eyes, jaw snapping at nothing. It hasn\'t spotted you yet.',
+   choices:[
+     {label:'🗡 Fight it',icon:'⚔️',
+      good:{msg:'You drive it back with your weapon. Scrap falls from its makeshift collar.',loot:{scrap:2,ammo:1},x:12,h:-10},
+      bad:{msg:'It clips your arm before you finish it. You limp away bleeding.',loot:{scrap:1},x:8,h:-22},
+      needsWeapon:true},
+     {label:'🏃 Flee',icon:'💨',
+      good:{msg:'You slip into a side door. It sniffs past. Close.',loot:{},x:5},
+      bad:{msg:'It catches your leg as you run. You shake free but it hurts.',loot:{},x:4,h:-12}},
+     {label:'🧀 Distract with food',icon:'🎯',
+      cost:{food:1},
+      good:{msg:'You toss food behind it. It spins. You walk past quietly.',loot:{scrap:1},x:10,teoXP:8}},
+   ],x:10,creature:'zombie hyena'},
+
+  {type:'auto',
+   text:'Three zombie hyenas fighting over a corpse in the road. You back up slowly and find another route. Teo doesn\'t make a sound.',
+   loot:{},x:6,h:0,teoXP:5,msg:'good'},
+
+  {type:'choice',
+   text:'A lone zombie hyena has cornered something in a ruined car. You hear whimpering — a survivor\'s dog.',
+   choices:[
+     {label:'🗡 Drive it off',icon:'⚔️',
+      good:{msg:'You chase it away. The dog bolts. The survivor finds you later and shares their food.',loot:{food:2,meds:1},x:12,h:-8},
+      bad:{msg:'The hyena turns on you. You drive it off but take damage.',loot:{food:1},x:8,h:-18}},
+     {label:'👁 Keep moving',icon:'💨',
+      good:{msg:'Not your problem today. You circle around and find a cache nearby.',loot:{scrap:2},x:5}},
+   ],x:10,creature:'zombie hyena'},
+
+  // ── RADIATED ZOMBIE ENCOUNTERS ──
+  {type:'choice',
+   text:'A radiated human zombie stumbles from a doorway — skin sloughing, glowing faintly green at the joints. It\'s slow but getting closer.',
+   choices:[
+     {label:'🗡 Fight',icon:'⚔️',
+      good:{msg:'You put it down before it gets close. Whatever it was carrying is yours now.',loot:{meds:1,scrap:2},x:12,h:-8,r:5},
+      bad:{msg:'It grabs you. You pull free but radiation transfer is real.',loot:{scrap:1},x:6,h:-15,r:18}},
+     {label:'🔫 Use ammo',icon:'💥',
+      cost:{ammo:1},
+      good:{msg:'Clean shot. You retrieve the brass and loot the area.',loot:{food:1,meds:1,scrap:1},x:10,r:2}},
+     {label:'🏃 Run',icon:'💨',
+      good:{msg:'Easy — it\'s barely moving. You\'re gone before it turns around.',loot:{},x:4,r:2}},
+   ],x:10,creature:'radiated zombie'},
+
+  {type:'auto',
+   text:'A pack of radiated zombies shuffle past the building you\'re hiding in. Teo goes completely still against your chest. You both wait.',
+   loot:{},x:5,teoXP:12,h:0,msg:'good'},
+
+  {type:'choice',
+   text:'A radiated zombie is stuck in a chain-link fence, flailing. Behind it: a pharmacy nobody\'s looted.',
+   choices:[
+     {label:'🗡 Finish it and loot',icon:'⚔️',
+      good:{msg:'Clean and careful. The pharmacy has real supplies.',loot:{meds:3,scrap:1},x:14,h:-5,r:8},
+      bad:{msg:'It frees itself mid-fight. You escape but take hits.',loot:{meds:1},x:7,h:-20,r:12}},
+     {label:'⏳ Wait for it to tire',icon:'🕐',
+      good:{msg:'Twenty minutes. It goes limp. You loot in peace.',loot:{meds:2,scrap:1},x:10,r:3}},
+   ],x:10,creature:'radiated zombie'},
+
+  // ── GIANT COCKROACH ENCOUNTERS ──
+  {type:'auto',
+   text:'Giant cockroaches swarm out of a drain — each one the size of a boot. You stomp through the wave and grab what you can from the store behind them.',
+   loot:{food:1,scrap:1},x:7,h:-3,msg:'good'},
+
+  {type:'choice',
+   text:'A massive cockroach — almost knee-high — guards a split-open vending machine. It hisses when you approach.',
+   choices:[
+     {label:'🗡 Fight it',icon:'⚔️',
+      good:{msg:'Shell cracks under your weapon. Vending machine snacks are yours.',loot:{food:2,scrap:1},x:8,h:-5},
+      bad:{msg:'Its shell deflects your first hit. It bites your ankle before you put it down.',loot:{food:1},x:5,h:-12}},
+     {label:'🔥 Craft a torch and scare it',icon:'🔥',
+      cost:{scrap:1},
+      good:{msg:'Fire works great on cockroaches. It scuttles into the dark. You grab the food.',loot:{food:2},x:9,teoXP:5}},
+     {label:'🏃 Not worth it',icon:'💨',
+      good:{msg:'You move on and find a cleaner spot down the block.',loot:{scrap:1},x:4}},
+   ],x:8,creature:'giant cockroach'},
+
+  {type:'auto',
+   text:'Cockroach shells litter the hallway — something bigger hunted here. You move fast and find untouched supplies in the back room.',
+   loot:{food:1,meds:1},x:7,msg:'good'},
+
+  // ── MUTANT RAT ENCOUNTERS ──
+  {type:'choice',
+   text:'Mutant rats — football-sized, red-eyed — pour out of a collapsed wall. There\'s food behind them.',
+   choices:[
+     {label:'🗡 Push through',icon:'⚔️',
+      good:{msg:'You wade through, swinging. Bites but worth it.',loot:{food:2,water:1},x:10,h:-8},
+      bad:{msg:'There are more than you thought. You retreat with bites and nothing to show.',loot:{},x:4,h:-15}},
+     {label:'⏳ Wait them out',icon:'🕐',
+      good:{msg:'They move on eventually. You grab the food in peace.',loot:{food:2},x:7}},
+     {label:'🧀 Lure them with food',icon:'🎯',
+      cost:{food:1},
+      good:{msg:'The swarm follows the bait. You slip past and find twice as much.',loot:{food:3,scrap:1},x:11,teoXP:8}},
+   ],x:8,creature:'mutant rat'},
+
+  {type:'auto',
+   text:'A mutant rat the size of a terrier sits in the road staring at you. Teo stares back. After ten seconds, the rat leaves. You both agree never to discuss this.',
+   loot:{},x:5,teoXP:10,msg:'good'},
+
+  // ── LOOT / SCAVENGE (AUTO) ──
+  {type:'auto',text:'You find an abandoned convenience store. Canned goods still on the shelf.',loot:{food:2,water:1},x:5,msg:'good'},
+  {type:'auto',text:'A rusted car — stripped already. You salvage the little that remains.',loot:{scrap:2},x:4,msg:'good'},
+  {type:'auto',text:'A collapsed pharmacy. Bandages and antibiotics under the rubble.',loot:{meds:2},x:5,msg:'good'},
+  {type:'auto',text:'A working rain collector. Clean water pooling inside.',loot:{water:2},x:5,msg:'good'},
+  {type:'auto',text:'An abandoned campsite, left in a hurry. Food and scrap remain.',loot:{food:1,scrap:1},x:5,msg:'good'},
+  {type:'auto',text:'A gas station — surprisingly untouched. Road snacks and scrap.',loot:{food:2,scrap:1},x:5,msg:'good'},
+  {type:'auto',text:'A first aid kit still on a fire station wall.',loot:{meds:2,scrap:1},x:6,msg:'good'},
+  {type:'auto',text:"A child's backpack. Trail mix and a photo. You take the food. Leave the photo.",loot:{food:1},x:3,msg:'good'},
+  {type:'auto',text:'An overturned delivery truck. Canned soup in the cargo hold.',loot:{food:3},x:6,msg:'good'},
+  {type:'auto',text:'A sporting goods store — mostly looted. Ammo and a knife remain.',loot:{ammo:3,scrap:1},x:7,msg:'good'},
+  {type:'auto',text:'A stream — murky but filterable. You fill your canteens carefully.',loot:{water:3},x:5,msg:'good'},
+  {type:'auto',text:'An old hardware store. Metal piping and wire.',loot:{scrap:3},x:5,msg:'good'},
+  {type:'auto',text:'A hospital supply closet someone missed.',loot:{meds:3},x:8,msg:'good'},
+  {type:'auto',text:"A journal from someone who didn't make it. Their route leads to a cache.",loot:{food:2,water:1,scrap:1},x:7,msg:'good'},
+  {type:'auto',text:'A bunker door — unlocked. Inside: enough food for days.',loot:{food:3,water:2,meds:1},x:10,msg:'good'},
+  {type:'auto',text:'An undisturbed church. Emergency rations in the basement.',loot:{food:2,water:1},x:5,msg:'good'},
+  {type:'auto',text:"A survivors' message board. Resource locations marked. You note two.",loot:{food:1,water:1},x:5,msg:'good'},
+
+  // ── HAZARD / BAD LUCK (AUTO) ──
+  {type:'auto',text:'Radiation spikes near a crater. You retreat fast.',loot:{},x:2,r:15,h:0,msg:'bad'},
+  {type:'auto',text:'You step through a weak floor. A long fall. Nothing broken — barely.',loot:{},x:3,h:-12,msg:'bad'},
+  {type:'auto',text:'Acid rain starts without warning. You shelter but still take burns.',loot:{},x:3,h:-8,r:4,msg:'bad'},
+  {type:'auto',text:'Scavengers spot you. You drop supplies and run.',loot:{food:-1,scrap:-1},x:4,msg:'bad'},
+
+  // ── TEO MOMENTS (AUTO, TEO LEVEL GATED) ──
+  {type:'auto',text:'Teo sniffs out a hidden cache under a floorboard. A full canteen and dried fruit.',loot:{water:2,food:1},x:10,teoXP:15,to:true,msg:'good'},
+  {type:'auto',text:'Teo runs in circles. You freeze. A trip wire. You step over it.',loot:{},x:8,teoXP:20,to:true,msg:'good'},
+  {type:'auto',text:'Teo digs near rubble — a waterproof box with medicine inside.',loot:{meds:2},x:6,teoXP:15,to:true,msg:'good'},
+
+  // ── SCAVENGER CHOICE EVENTS ──
+  {type:'choice',
+   text:'A lone scavenger has a backpack full of food but looks sick — radiation burns on his hands.',
+   choices:[
+     {label:'💊 Trade meds for food',icon:'💊',
+      cost:{meds:1},
+      good:{msg:'Fair trade. He looks relieved. You both walk away better.',loot:{food:3},x:9}},
+     {label:'🤝 Share freely',icon:'🤝',
+      good:{msg:'You give meds, take nothing. He presses food on you anyway.',loot:{food:2},x:8,teoXP:5}},
+     {label:'👁 Keep your distance',icon:'💨',
+      good:{msg:'You circle around. Find a hardware store on the next block.',loot:{scrap:2},x:5}},
+   ],x:8},
 ];
 var TL=[
   {level:0,title:'Untrained Pup',xp:30,unlock:null},
@@ -1116,7 +1229,8 @@ function relLabel(v){
 }
 
 function doExplore(){
-  if(G.dead)return;G.acts++;
+  if(G.dead)return;
+  G.acts++;
   var w=G.weather;
   G.energy=Math.max(0,G.energy-15);
   G.hunger=Math.max(0,G.hunger-(8*(G.teoLevel>=3?.9:1))*w.hm);
@@ -1124,19 +1238,96 @@ function doExplore(){
   G.radiation=Math.min(100,G.radiation+w.rad);
   if(w.hd)G.health=Math.max(0,G.health-w.hd);
   if(w.ed)G.energy=Math.max(0,G.energy-w.ed);
-  G.teoHunger=Math.max(0,G.teoHunger-6);G.teoThirst=Math.max(0,G.teoThirst-6);G.teoMorale=Math.max(0,G.teoMorale-2);
-  var pool=EV.filter(function(e){return !e.to||(e.to&&G.teoLevel>=1);});
-  if(G.teoLevel>=2)pool=pool.concat(EV.filter(function(e){return !!e.tx;}));
+  G.teoHunger=Math.max(0,G.teoHunger-6);
+  G.teoThirst=Math.max(0,G.teoThirst-6);
+  G.teoMorale=Math.max(0,G.teoMorale-2);
+
+  // Build pool — Teo-gated events only if Teo leveled up
+  var pool=ENCOUNTERS.filter(function(e){return !e.to||(e.to&&G.teoLevel>=1);});
   var ev=pool[Math.floor(Math.random()*pool.length)];
-  if(ev.sc){if((G.inv.scrap||0)<ev.sc){addLog('Not enough scrap to trade.');advPhase();checkDeath();renderG();return;}G.inv.scrap-=ev.sc;}
-  Object.keys(ev.l||{}).forEach(function(k){G.inv[k]=(G.inv[k]||0)+ev.l[k];});
-  if(ev.h)G.health=Math.max(0,Math.min(100,G.health+ev.h));
-  if(ev.r)G.radiation=Math.min(100,G.radiation+ev.r);
-  if(ev.tx){G.teoXP+=ev.tx;checkTeoUp();}
+
+  if(ev.type==='choice'){
+    showEncounterModal(ev);
+    renderG();
+    return;
+  }
+
+  // Auto event
+  applyEncounterLoot(ev.loot||{});
+  if(ev.h)G.health=Math.max(0,Math.min(100,G.health+(ev.h||0)));
+  if(ev.r)G.radiation=Math.min(100,G.radiation+(ev.r||0));
+  if(ev.teoXP){G.teoXP+=ev.teoXP;checkTeoUp();}
   G.xp+=(ev.x||5);
-  var msg=ev.t;var lp=Object.keys(ev.l||{}).filter(function(k){return ev.l[k]>0;}).map(function(k){return '+'+ev.l[k]+' '+k;});
-  if(lp.length)msg+=' ('+lp.join(', ')+')';
-  addLog(msg,ev.tx?'teo':'story');
+  var lp=Object.keys(ev.loot||{}).filter(function(k){return (ev.loot[k]||0)>0;}).map(function(k){return '+'+ev.loot[k]+' '+k;});
+  var msg=ev.text+(lp.length?' ('+lp.join(', ')+')':'');
+  addLog(msg,ev.teoXP?'teo':ev.msg==='bad'?'danger':'story');
+  advPhase();checkDeath();renderG();
+}
+
+function applyEncounterLoot(loot){
+  Object.keys(loot||{}).forEach(function(k){G.inv[k]=Math.max(0,(G.inv[k]||0)+(loot[k]||0));});
+}
+
+function showEncounterModal(ev){
+  var modal=document.getElementById('encounter-modal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='encounter-modal';
+    modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem';
+    modal.innerHTML='<div id="enc-inner" style="background:var(--bg2);border:1px solid var(--border2);border-radius:10px;max-width:480px;width:100%;padding:1.25rem;display:flex;flex-direction:column;gap:.85rem"></div>';
+    document.body.appendChild(modal);
+  }
+  var inner=document.getElementById('enc-inner');
+  var creatureTag=ev.creature?'<div style="font-size:.72rem;color:var(--red);letter-spacing:.15em;text-transform:uppercase;font-weight:700;margin-bottom:.2rem">⚠ '+ev.creature.toUpperCase()+' ENCOUNTER</div>':'';
+  var choiceHTML=ev.choices.map(function(c,i){
+    var costHTML='';
+    if(c.cost){
+      var costKey=Object.keys(c.cost)[0];
+      var costVal=c.cost[costKey];
+      var hasIt=(G.inv[costKey]||0)>=costVal;
+      costHTML='<span style="font-size:.7rem;color:'+(hasIt?'var(--gold)':'var(--red)')+'"> (costs '+costVal+' '+costKey+')</span>';
+    }
+    return '<button onclick="resolveEncounter('+i+')" style="background:var(--card);border:1px solid var(--border);border-radius:7px;padding:.75rem 1rem;text-align:left;color:var(--text);cursor:pointer;font-family:\'Inter\',sans-serif;font-size:.94rem;line-height:1.5;width:100%;transition:all .13s" onmouseover="this.style.borderColor=\'var(--border2)\'" onmouseout="this.style.borderColor=\'var(--border)\'">'+(c.icon||'▸')+' <strong>'+c.label+'</strong>'+costHTML+'</button>';
+  }).join('');
+  inner.innerHTML=creatureTag+'<div style="font-family:\'Lora\',serif;font-size:1.05rem;line-height:1.85;color:var(--textb)">'+ev.text+'</div><div style="display:flex;flex-direction:column;gap:.5rem">'+choiceHTML+'</div>';
+  modal.style.display='flex';
+  window._currentEncounter=ev;
+}
+
+function resolveEncounter(choiceIdx){
+  var ev=window._currentEncounter;
+  if(!ev)return;
+  var modal=document.getElementById('encounter-modal');
+  if(modal)modal.style.display='none';
+  var c=ev.choices[choiceIdx];
+
+  // Check cost
+  if(c.cost){
+    var costKey=Object.keys(c.cost)[0];
+    var costVal=c.cost[costKey];
+    if((G.inv[costKey]||0)<costVal){
+      addLog("You don't have enough "+costKey+" for that.",'danger');
+      advPhase();checkDeath();renderG();return;
+    }
+    G.inv[costKey]-=costVal;
+  }
+
+  // Fight outcomes depend on weapon
+  var outcome;
+  if(c.needsWeapon&&G.weapon==='Makeshift Spear'){
+    outcome=Math.random()<0.55?c.good:c.bad;
+  } else if(c.good&&c.bad){
+    outcome=Math.random()<0.65?c.good:c.bad;
+  } else {
+    outcome=c.good||c;
+  }
+
+  addLog(outcome.msg||'Done.',ev.creature?'danger':'story');
+  applyEncounterLoot(outcome.loot||{});
+  if(outcome.h)G.health=Math.max(0,Math.min(100,G.health+(outcome.h||0)));
+  if(outcome.r)G.radiation=Math.min(100,G.radiation+(outcome.r||0));
+  if(outcome.teoXP){G.teoXP+=outcome.teoXP;checkTeoUp();}
+  G.xp+=(outcome.x||ev.x||5);
   advPhase();checkDeath();renderG();
 }
 
