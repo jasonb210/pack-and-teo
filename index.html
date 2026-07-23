@@ -224,7 +224,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
     <div class="stat s-thirst"><div class="stat-label"><span>Thirst</span><span class="stat-val" id="sv-thirst">80</span></div><div class="sbar"><div class="sf" id="sb-thirst" style="width:80%"></div></div></div>
     <div class="stat s-energy"><div class="stat-label"><span>Energy</span><span class="stat-val" id="sv-energy">100</span></div><div class="sbar"><div class="sf" id="sb-energy" style="width:100%"></div></div></div>
     <div class="stat s-radiation"><div class="stat-label"><span>Radiation</span><span class="stat-val" id="sv-radiation">0</span></div><div class="sbar"><div class="sf" id="sb-radiation" style="width:0%"></div></div></div>
-    <div class="stat s-teo"><div class="stat-label"><span>Teo Morale</span><span class="stat-val" id="sv-teo">100</span></div><div class="sbar"><div class="sf" id="sb-teo" style="width:100%"></div></div></div>
+    <div class="stat s-teo"><div class="stat-label"><span>Teo Thirst</span><span class="stat-val" id="sv-teo">100</span></div><div class="sbar"><div class="sf" id="sb-teo" style="width:100%"></div></div></div>
   </div>
   <div class="log-section">
     <div class="log-hd">Activity Log</div>
@@ -1266,7 +1266,7 @@ function renderG(){
   var s=G;
   ['health','hunger','thirst','energy'].forEach(function(k){document.getElementById('sv-'+k).textContent=Math.round(s[k]);document.getElementById('sb-'+k).style.width=Math.min(100,Math.max(0,s[k]))+'%';});
   document.getElementById('sv-radiation').textContent=Math.round(s.radiation);document.getElementById('sb-radiation').style.width=Math.min(100,s.radiation)+'%';
-  document.getElementById('sv-teo').textContent=Math.round(s.teoMorale);document.getElementById('sb-teo').style.width=Math.min(100,Math.max(0,s.teoMorale))+'%';
+  document.getElementById('sv-teo').textContent=Math.round(s.teoThirst);document.getElementById('sb-teo').style.width=Math.min(100,Math.max(0,s.teoThirst))+'%';
   document.getElementById('day-badge').textContent='Day '+s.day+' \u2014 '+s.phase;
   document.getElementById('weather-badge').textContent=s.weather.name+' \u2014 '+s.weather.desc;
   var inv=s.inv;
